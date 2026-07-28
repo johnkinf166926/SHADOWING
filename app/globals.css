@@ -1,0 +1,4854 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --canvas: #f5f3ed;
+  --surface: #fffefa;
+  --surface-strong: #ffffff;
+  --surface-soft: #ebe9e1;
+  --ink: #20302c;
+  --muted: #68736f;
+  --subtle: #8e9692;
+  --line: #deddd6;
+  --line-strong: #c8ccc5;
+  --accent: #db5b3d;
+  --accent-hover: #bf472c;
+  --accent-soft: #f7ded5;
+  --green: #2f725b;
+  --green-soft: #dcece5;
+  --blue: #48658d;
+  --blue-soft: #dfe7f1;
+  --gold: #97733b;
+  --gold-soft: #f2e8cb;
+  --speaker-a: #c6573c;
+  --speaker-a-soft: #fae2da;
+  --speaker-b: #3f668d;
+  --speaker-b-soft: #dfeaf4;
+  --danger: #b43f3b;
+  --danger-soft: #f6dedc;
+  --shadow-sm: 0 1px 2px rgb(32 48 44 / 4%);
+  --shadow-md: 0 14px 36px rgb(39 48 44 / 7%);
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --sidebar-width: 250px;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --canvas: #151b19;
+  --surface: #1c2421;
+  --surface-strong: #232d29;
+  --surface-soft: #28322f;
+  --ink: #edf1ed;
+  --muted: #a8b3ad;
+  --subtle: #818e88;
+  --line: #35413c;
+  --line-strong: #495751;
+  --accent: #ec7657;
+  --accent-hover: #fa8768;
+  --accent-soft: #4a2c25;
+  --green: #76bea0;
+  --green-soft: #263e35;
+  --blue: #91add0;
+  --blue-soft: #293b4d;
+  --gold: #dfbd78;
+  --gold-soft: #493e2c;
+  --speaker-a: #f18a6d;
+  --speaker-a-soft: #4b2d27;
+  --speaker-b: #9ebcde;
+  --speaker-b-soft: #293c50;
+  --danger: #f08d87;
+  --danger-soft: #4b2928;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 12%);
+  --shadow-md: 0 18px 42px rgb(0 0 0 / 22%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--canvas);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at 88% 2%, rgb(219 91 61 / 5%), transparent 22rem),
+    var(--canvas);
+  color: var(--ink);
+  font-family:
+    "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans", "Yu Gothic UI",
+    "Microsoft YaHei", system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  border: 0;
+}
+
+button:not(:disabled),
+a,
+select {
+  cursor: pointer;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.app-frame {
+  min-height: 100dvh;
+}
+
+.sidebar {
+  position: fixed;
+  z-index: 30;
+  inset: 0 auto 0 0;
+  display: flex;
+  width: var(--sidebar-width);
+  flex-direction: column;
+  border-right: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 96%, transparent);
+  padding: 26px 18px 20px;
+  backdrop-filter: blur(16px);
+  transition: transform 220ms ease;
+}
+
+.sidebar-collapsed {
+  transform: translateX(-104%);
+}
+
+.sidebar-backdrop {
+  display: none;
+}
+
+.sidebar-reopen-button {
+  position: fixed;
+  z-index: 31;
+  top: 20px;
+  left: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand,
+.mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 13px 13px 13px 4px;
+  background: var(--accent);
+  box-shadow: 0 7px 16px rgb(219 91 61 / 20%);
+  color: white;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.brand-mark.small {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px 10px 10px 3px;
+  font-size: 18px;
+}
+
+.brand strong {
+  display: block;
+  font-size: 14px;
+  letter-spacing: -0.02em;
+}
+
+.brand small {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 40px;
+}
+
+.nav-link {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 13px;
+  border-radius: 13px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 620;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.nav-link:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+  transform: translateX(2px);
+}
+
+.nav-link-active,
+.nav-link-active:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.sidebar-card {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface-strong);
+  padding: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.sidebar-card > svg {
+  flex: 0 0 auto;
+  color: var(--green);
+}
+
+.sidebar-card strong {
+  font-size: 12px;
+}
+
+.sidebar-card p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 40px;
+  margin-top: 12px;
+  border-radius: 11px;
+  background: transparent;
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.theme-toggle:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.app-main {
+  width: min(100%, 1500px);
+  min-height: 100dvh;
+  margin-left: var(--sidebar-width);
+  padding: 42px clamp(28px, 4vw, 64px) 72px;
+  transition: margin-left 220ms ease;
+}
+
+.sidebar-is-collapsed .app-main {
+  margin-left: 0;
+}
+
+.mobile-header,
+.bottom-nav,
+.mobile-only {
+  display: none;
+}
+
+.page-stack {
+  display: grid;
+  gap: 26px;
+}
+
+.page-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.page-heading h1 {
+  margin: 5px 0 7px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(30px, 4vw, 46px);
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+
+.page-heading .muted {
+  max-width: 650px;
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.muted {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.badge {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.badge-neutral {
+  border-color: var(--line);
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.badge-success {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.badge-accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.badge-speakerA {
+  background: var(--speaker-a-soft);
+  color: var(--speaker-a);
+}
+
+.badge-speakerB {
+  background: var(--speaker-b-soft);
+  color: var(--speaker-b);
+}
+
+.today-hero {
+  position: relative;
+  display: grid;
+  min-height: 298px;
+  grid-template-columns: minmax(0, 1fr) minmax(180px, 31%);
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--green) 25%, var(--line));
+  border-radius: 28px;
+  background:
+    linear-gradient(
+      115deg,
+      color-mix(in srgb, var(--green-soft) 72%, var(--surface)) 0 62%,
+      transparent 62%
+    ),
+    repeating-linear-gradient(
+      -42deg,
+      color-mix(in srgb, var(--green) 7%, transparent) 0 1px,
+      transparent 1px 10px
+    ),
+    var(--surface);
+  padding: clamp(27px, 4vw, 48px);
+  box-shadow: var(--shadow-md);
+}
+
+.today-hero::after {
+  position: absolute;
+  right: -80px;
+  bottom: -130px;
+  width: 350px;
+  height: 350px;
+  border: 1px solid color-mix(in srgb, var(--green) 18%, transparent);
+  border-radius: 50%;
+  content: "";
+}
+
+.today-hero-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+}
+
+.section-kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 780;
+}
+
+.today-hero h2 {
+  margin: 13px 0 4px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(28px, 4.3vw, 44px);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.japanese-title {
+  margin: 0 0 28px;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.today-progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.progress-track {
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+.progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 400ms ease;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  padding: 0 17px;
+  font-size: 13px;
+  font-weight: 750;
+  transition:
+    transform 150ms ease,
+    background 150ms ease,
+    border 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button-primary {
+  background: var(--accent);
+  box-shadow: 0 7px 18px rgb(219 91 61 / 18%);
+  color: white;
+}
+
+.button-primary:hover {
+  background: var(--accent-hover);
+}
+
+.button-secondary {
+  border-color: var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+}
+
+.button-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.button-ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+.button-ghost:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.button-danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.practice-stamp {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: clamp(135px, 16vw, 190px);
+  aspect-ratio: 1;
+  place-content: center;
+  justify-self: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, var(--line));
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface) 84%, transparent);
+  box-shadow:
+    inset 0 0 0 8px color-mix(in srgb, var(--surface) 70%, transparent),
+    inset 0 0 0 9px color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+  text-align: center;
+  transform: rotate(-4deg);
+}
+
+.practice-stamp span {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(58px, 7vw, 84px);
+  line-height: 0.9;
+}
+
+.practice-stamp small {
+  margin-top: 9px;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.24em;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 13px;
+}
+
+.metric-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  padding: 17px;
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-icon {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 11px;
+}
+
+.metric-icon.peach {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.metric-icon.mint {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.metric-icon.blue {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.metric-icon.gold {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.metric-card > div {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+
+.metric-card strong {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 25px;
+}
+
+.metric-card span:not(.metric-icon) {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.metric-card > small {
+  grid-column: 1 / -1;
+  color: var(--subtle);
+  font-size: 10px;
+}
+
+.dashboard-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(330px, 0.75fr);
+  gap: 16px;
+}
+
+.surface {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: clamp(20px, 3vw, 27px);
+  box-shadow: var(--shadow-sm);
+}
+
+.section-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 21px;
+}
+
+.section-heading-row h2 {
+  margin: 4px 0 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+  font-weight: 650;
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.heading-icon {
+  color: var(--green);
+}
+
+.recent-lesson {
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 16px;
+  transition:
+    border 150ms ease,
+    background 150ms ease,
+    transform 150ms ease;
+}
+
+.recent-lesson:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 32%, var(--surface));
+  transform: translateY(-1px);
+}
+
+.lesson-number {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.recent-copy strong,
+.recent-copy small,
+.recent-meta b,
+.recent-meta small {
+  display: block;
+}
+
+.recent-copy strong {
+  font-size: 14px;
+}
+
+.recent-copy small,
+.recent-meta small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.recent-meta {
+  text-align: right;
+}
+
+.recent-meta b {
+  color: var(--green);
+  font-size: 14px;
+}
+
+.recent-arrow {
+  color: var(--subtle);
+}
+
+.unit-progress-list {
+  display: grid;
+  gap: 18px;
+}
+
+.unit-progress-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.unit-kanji {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.unit-progress-copy {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 7px;
+  font-size: 11px;
+}
+
+.unit-progress-copy span {
+  color: var(--muted);
+}
+
+.complete-check {
+  color: var(--green);
+}
+
+.icon-button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.icon-button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.breadcrumbs span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.breadcrumbs a:hover {
+  color: var(--accent);
+}
+
+.page-summary {
+  display: flex;
+  gap: 8px;
+}
+
+.page-summary span {
+  display: flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  padding: 0 12px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.unit-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.unit-card {
+  display: flex;
+  min-height: 370px;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.unit-card:nth-child(3n + 1) {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--green-soft) 38%, var(--surface)),
+    var(--surface) 42%
+  );
+}
+
+.unit-card:nth-child(3n + 2) {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--blue-soft) 35%, var(--surface)),
+    var(--surface) 42%
+  );
+}
+
+.unit-card:nth-child(3n) {
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--gold-soft) 35%, var(--surface)),
+    var(--surface) 42%
+  );
+}
+
+.unit-card-top,
+.unit-card-footer,
+.lesson-list-title-row,
+.lesson-detail-badges {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.unit-seal {
+  display: grid;
+  width: 47px;
+  height: 47px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, var(--line));
+  border-radius: 14px 14px 14px 4px;
+  background: var(--surface);
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.unit-seal.small {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px 11px 11px 4px;
+  font-size: 12px;
+}
+
+.unit-card-copy {
+  margin: 28px 0 22px;
+}
+
+.unit-card-copy h2,
+.unit-detail-header h1,
+.lesson-detail-header h1 {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.unit-card-copy h2 {
+  font-size: 25px;
+}
+
+.unit-subtitle {
+  margin: 6px 0 16px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.unit-card-progress {
+  margin-top: auto;
+}
+
+.unit-card-progress > span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  margin: 0 14px 9px 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.unit-card-progress b {
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.unit-card-footer {
+  margin-top: 19px;
+}
+
+.unit-card-footer .button {
+  flex: 1;
+}
+
+.unit-complete-icon {
+  color: var(--green);
+}
+
+.empty-inline {
+  color: var(--subtle);
+  font-size: 11px;
+}
+
+.unit-detail-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(150px, 230px);
+  align-items: center;
+  gap: clamp(20px, 4vw, 42px);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: linear-gradient(
+    112deg,
+    color-mix(in srgb, var(--green-soft) 45%, var(--surface)),
+    var(--surface) 52%
+  );
+  padding: clamp(24px, 4vw, 42px);
+}
+
+.unit-detail-number {
+  display: grid;
+  width: clamp(80px, 11vw, 118px);
+  aspect-ratio: 1;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow:
+    inset 0 0 0 7px color-mix(in srgb, var(--surface) 14%, transparent),
+    0 12px 26px color-mix(in srgb, var(--green) 22%, transparent);
+  color: white;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(35px, 5vw, 54px);
+}
+
+.unit-detail-header h1 {
+  margin: 6px 0 2px;
+  font-size: clamp(31px, 4vw, 44px);
+}
+
+.unit-detail-header .muted {
+  max-width: 600px;
+}
+
+.unit-detail-progress {
+  text-align: right;
+}
+
+.unit-detail-progress strong,
+.unit-detail-progress span {
+  display: block;
+}
+
+.unit-detail-progress strong {
+  color: var(--green);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 30px;
+}
+
+.unit-detail-progress span {
+  margin: 2px 0 10px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.lesson-list {
+  display: grid;
+  gap: 11px;
+}
+
+.course-section-list {
+  display: grid;
+  gap: 26px;
+}
+
+.course-section {
+  scroll-margin-top: 24px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--surface-strong) 74%, transparent);
+}
+
+.course-section-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--green-soft) 38%, var(--surface));
+  padding: 18px 20px;
+}
+
+.course-section-header h3,
+.course-section-header p {
+  margin: 0;
+}
+
+.course-section-header h3 {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+}
+
+.course-section-header p {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.course-section-number,
+.course-track-number {
+  text-align: center;
+}
+
+.course-section-number {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--green);
+  color: white;
+}
+
+.course-section-number small,
+.course-section-number strong,
+.course-track-number small,
+.course-track-number strong {
+  display: block;
+}
+
+.course-section-number small,
+.course-track-number small {
+  font-size: 7px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.course-section-number strong {
+  margin-top: -8px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 24px;
+}
+
+.course-track-list {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+}
+
+.course-track-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 17px;
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  background: var(--surface);
+  padding: 16px;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.course-track-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 52%, var(--line));
+  transform: translateY(-1px);
+}
+
+.course-track-number {
+  border-right: 1px solid var(--line);
+  color: var(--accent);
+}
+
+.course-track-number small {
+  color: var(--subtle);
+}
+
+.course-track-number strong {
+  margin-top: 2px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 27px;
+}
+
+.course-track-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.course-track-title h4 {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 17px;
+}
+
+.course-track-title > span {
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.course-track-dialogue {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.course-track-dialogue p {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  gap: 7px;
+  margin: 0;
+  color: var(--text);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.course-track-dialogue b {
+  color: var(--accent);
+}
+
+.course-track-dialogue small {
+  margin-left: 27px;
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.course-track-content .lesson-meta {
+  margin-bottom: 0;
+}
+
+.course-track-action {
+  align-self: center;
+}
+
+.lesson-list-item {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: 18px;
+}
+
+.lesson-list-item:hover {
+  border-color: color-mix(in srgb, var(--accent) 50%, var(--line));
+}
+
+.lesson-section-no {
+  width: 58px;
+  border-right: 1px solid var(--line);
+  text-align: center;
+}
+
+.lesson-section-no small,
+.lesson-section-no strong {
+  display: block;
+}
+
+.lesson-section-no small {
+  color: var(--subtle);
+  font-size: 7px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.lesson-section-no strong {
+  margin-top: 3px;
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 24px;
+}
+
+.lesson-list-title-row h3 {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 17px;
+}
+
+.lesson-list-title-row p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.favorite-icon {
+  color: var(--accent);
+}
+
+.lesson-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 13px;
+  margin: 12px 0;
+}
+
+.lesson-meta > span:not(.badge) {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.lesson-meta.large > span:not(.badge) {
+  font-size: 12px;
+}
+
+.lesson-list-actions {
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+}
+
+.lesson-list-actions > span {
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.lesson-detail-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--accent-soft) 36%, var(--surface)),
+    var(--surface) 48%
+  );
+}
+
+.lesson-detail-badges {
+  justify-content: flex-start;
+}
+
+.lesson-detail-header h1 {
+  margin: 18px 0 4px;
+  font-size: clamp(31px, 4vw, 46px);
+}
+
+.favorite-button {
+  color: var(--accent);
+}
+
+.track-pager {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) auto minmax(170px, 1fr);
+  align-items: center;
+  gap: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.track-pager-button {
+  min-height: 52px;
+  justify-content: flex-start;
+}
+
+.track-pager-button.next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.track-pager-button > span {
+  display: grid;
+  gap: 2px;
+}
+
+.track-pager-button small,
+.track-pager-current small {
+  color: var(--subtle);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.track-pager-button.disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.track-pager-current {
+  display: grid;
+  min-width: 120px;
+  justify-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+.track-pager-current strong {
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 16px;
+}
+
+.last-result {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.practice-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.practice-mode-card {
+  position: relative;
+  display: grid;
+  min-height: 205px;
+  grid-template-rows: auto 1fr;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  background: var(--surface);
+  padding: 18px;
+  transition:
+    transform 160ms ease,
+    border 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.practice-mode-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.practice-mode-icon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border-radius: 13px;
+}
+
+.practice-mode-icon.mint {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.practice-mode-icon.peach {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.practice-mode-icon.blue {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.practice-mode-icon.gold {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.practice-mode-card h3 {
+  margin: 19px 0 3px;
+  font-size: 14px;
+}
+
+.practice-mode-card span:not(.practice-mode-icon) {
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 10px;
+}
+
+.practice-mode-card p {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.practice-mode-arrow {
+  position: absolute;
+  top: 22px;
+  right: 19px;
+  color: var(--subtle);
+}
+
+.dialogue-preview {
+  display: grid;
+  gap: 8px;
+}
+
+.dialogue-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 14px;
+  border-radius: 14px;
+  padding: 15px;
+}
+
+.dialogue-row.speaker-a {
+  background: color-mix(in srgb, var(--speaker-a-soft) 45%, transparent);
+}
+
+.dialogue-row.speaker-b {
+  background: color-mix(in srgb, var(--speaker-b-soft) 45%, transparent);
+}
+
+.dialogue-japanese,
+.dialogue-reading,
+.dialogue-translation {
+  margin: 0;
+}
+
+.dialogue-japanese {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 16px;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.dialogue-line-display {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 9px;
+}
+
+.dialogue-line-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.line-edit-trigger {
+  display: inline-flex;
+  min-height: 28px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+  padding: 0 8px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.line-edit-trigger:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.line-save-confirmation {
+  display: inline-flex;
+  min-height: 28px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 3px;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.dialogue-line-editor {
+  display: grid;
+  gap: 7px;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, var(--line));
+  border-radius: 12px;
+  background: var(--surface-strong);
+  padding: 11px;
+}
+
+.dialogue-line-editor > label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.dialogue-line-editor select {
+  width: min(180px, 100%);
+}
+
+.dialogue-line-editor textarea {
+  width: 100%;
+  min-height: 82px;
+  resize: vertical;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.dialogue-line-editor .dialogue-translation-input {
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.line-split-trigger {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px dashed color-mix(in srgb, var(--accent) 55%, var(--line));
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.dialogue-split-panel {
+  display: grid;
+  gap: 7px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  padding-top: 12px;
+}
+
+.dialogue-split-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dialogue-split-heading strong {
+  font-size: 12px;
+}
+
+.dialogue-split-heading button {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.dialogue-split-panel > label {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.dialogue-split-panel > small {
+  color: var(--subtle);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.dialogue-track-split {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid var(--line);
+  margin-top: 4px;
+  padding-top: 11px;
+}
+
+.dialogue-track-split button {
+  display: inline-flex;
+  min-height: 35px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid color-mix(in srgb, var(--blue) 45%, var(--line));
+  border-radius: 10px;
+  background: var(--blue-soft);
+  color: var(--blue);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.dialogue-track-split small {
+  color: var(--subtle);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.dialogue-edit-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dialogue-edit-footer > small {
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.dialogue-edit-footer > div {
+  display: flex;
+  gap: 6px;
+}
+
+.dialogue-edit-footer .button {
+  min-height: 33px;
+  padding: 0 11px;
+}
+
+.dialogue-edit-error {
+  margin: 0;
+  color: var(--danger);
+  font-size: 11px;
+}
+
+.dialogue-reading {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.dialogue-translation {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.dialogue-translation-empty {
+  color: var(--subtle);
+  font-style: italic;
+}
+
+.dialogue-row time {
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.admin-workspace {
+  display: grid;
+  gap: 16px;
+}
+
+.admin-tabs {
+  display: flex;
+  gap: 5px;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  padding: 5px;
+}
+
+.admin-tab {
+  display: inline-flex;
+  min-height: 42px;
+  flex: 1 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 11px;
+  background: transparent;
+  padding: 0 14px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.admin-tab:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.admin-tab-active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.admin-tab-active:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.admin-two-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.local-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  background: var(--green-soft);
+  padding: 5px 9px;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.local-badge.neutral {
+  background: var(--surface-soft);
+  color: var(--muted);
+}
+
+.admin-tree,
+.admin-form-stack {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-tree-unit {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+}
+
+.admin-tree-unit-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 13px;
+}
+
+.admin-tree-unit-row strong,
+.admin-tree-unit-row small {
+  display: block;
+}
+
+.admin-tree-unit-row strong {
+  font-size: 12px;
+}
+
+.admin-tree-unit-row small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.button.compact {
+  min-height: 32px;
+  padding: 0 10px;
+  font-size: 10px;
+}
+
+.admin-tree-lesson {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-soft) 44%, var(--surface));
+  padding: 10px 14px 10px 20px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.admin-tree-actions,
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-tree-actions .icon-button {
+  width: 30px;
+  height: 30px;
+}
+
+.icon-button.danger {
+  color: var(--danger);
+}
+
+.icon-button.danger:hover {
+  background: var(--danger-soft);
+}
+
+.admin-tree-lesson small {
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.admin-form {
+  display: grid;
+  gap: 13px;
+}
+
+.admin-form .section-heading-row {
+  margin-bottom: 2px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.form-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.admin-form label {
+  display: grid;
+  gap: 6px;
+}
+
+.admin-form label > span {
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.admin-form label > small {
+  min-height: 12px;
+  color: var(--danger);
+  font-size: 9px;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  padding: 10px 11px;
+  font-size: 12px;
+}
+
+input,
+select {
+  min-height: 41px;
+}
+
+textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+}
+
+.import-panel,
+.audio-upload-panel,
+.settings-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.dropzone {
+  display: grid;
+  place-items: center;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 18px;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent 0 12px,
+    color-mix(in srgb, var(--surface-soft) 35%, transparent) 12px 13px
+  );
+  padding: 35px 18px;
+  text-align: center;
+  transition:
+    border 150ms ease,
+    background 150ms ease;
+}
+
+.dropzone-active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.dropzone-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.dropzone h3,
+.audio-upload-copy h3 {
+  margin: 13px 0 5px;
+  font-size: 13px;
+}
+
+.dropzone p,
+.audio-upload-copy p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.import-preview {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.import-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  background: var(--surface-soft);
+  padding: 14px;
+}
+
+.import-preview h3,
+.import-preview p {
+  margin: 0;
+}
+
+.import-preview h3 {
+  font-size: 12px;
+}
+
+.import-preview-header p {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.validation-status {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 5px 8px;
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.validation-status.valid {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.validation-status.invalid {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.validation-issues {
+  display: grid;
+  gap: 7px;
+  max-height: 260px;
+  overflow: auto;
+  margin: 0;
+  padding: 13px;
+  list-style: none;
+}
+
+.validation-issues li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px;
+  border-radius: 10px;
+  padding: 9px;
+}
+
+.validation-error {
+  background: var(--danger-soft);
+}
+
+.validation-warning {
+  background: var(--gold-soft);
+}
+
+.validation-issues li > span {
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.validation-issues code {
+  font-size: 8px;
+}
+
+.validation-issues p {
+  margin-top: 3px;
+  font-size: 9px;
+}
+
+.validation-empty {
+  padding: 16px;
+  color: var(--green);
+  font-size: 10px;
+}
+
+.import-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid var(--line);
+  padding: 12px;
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 12px;
+  font-size: 10px;
+}
+
+.notice > svg {
+  flex: 0 0 auto;
+}
+
+.notice strong,
+.notice p {
+  margin: 0;
+}
+
+.notice p {
+  margin-top: 2px;
+  line-height: 1.5;
+}
+
+.notice-success {
+  border-color: color-mix(in srgb, var(--green) 22%, var(--line));
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.notice-error {
+  border-color: color-mix(in srgb, var(--danger) 22%, var(--line));
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.notice-neutral {
+  border-color: var(--line);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.audio-upload-panel {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  border: 1px dashed var(--line-strong);
+  border-radius: 16px;
+  padding: 18px;
+}
+
+.audio-upload-copy {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.audio-upload-copy h3 {
+  margin-top: 0;
+}
+
+.audio-upload-copy p {
+  margin-bottom: 0;
+}
+
+.audio-upload-panel .notice {
+  grid-column: 1 / -1;
+}
+
+.audio-asset-table {
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+}
+
+.audio-asset-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 0.5fr 0.5fr;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  font-size: 10px;
+}
+
+.audio-asset-row.header {
+  background: var(--surface-soft);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.export-panel {
+  display: grid;
+  gap: 18px;
+}
+
+.export-panel .section-heading-row {
+  margin-bottom: 0;
+}
+
+.settings-panel .section-heading-row {
+  margin-bottom: 0;
+}
+
+.setting-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.setting-row strong {
+  font-size: 12px;
+}
+
+.setting-row p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.setting-row input[type="checkbox"] {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--accent);
+}
+
+.spin {
+  animation: spin 900ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.practice-page {
+  padding-bottom: 110px;
+}
+
+.practice-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.practice-page-header h1 {
+  margin: 5px 0 2px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(29px, 3.7vw, 42px);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.practice-page-header > div > p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.practice-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
+  gap: 16px;
+}
+
+.practice-stage {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 25px;
+  background: var(--surface);
+  padding: clamp(19px, 3vw, 31px);
+}
+
+.practice-stage-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.practice-stage-top .badge {
+  margin-top: 8px;
+}
+
+.visibility-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.toggle-chip {
+  min-height: 31px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0 10px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 720;
+}
+
+.toggle-chip:hover {
+  border-color: var(--accent);
+}
+
+.toggle-chip.active {
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.current-line-card {
+  display: grid;
+  min-height: 285px;
+  place-content: center;
+  margin-top: 22px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--green-soft) 25%, var(--surface)),
+    var(--surface) 52%
+  );
+  padding: clamp(25px, 5vw, 58px);
+  text-align: center;
+}
+
+.current-japanese {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(26px, 4vw, 42px);
+  font-weight: 650;
+  letter-spacing: 0.015em;
+  line-height: 1.7;
+}
+
+.current-reading {
+  margin: 18px 0 0;
+  color: var(--blue);
+  font-size: clamp(12px, 1.6vw, 15px);
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+.current-translation {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.7;
+}
+
+.practice-layout[data-translation-size="medium"] .current-translation {
+  font-size: 15px;
+}
+
+.practice-layout[data-translation-size="xlarge"] .current-translation {
+  font-size: clamp(21px, 2.4vw, 24px);
+}
+
+.hidden-text-placeholder {
+  margin: 0;
+  color: var(--subtle);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 17px;
+}
+
+.line-navigation {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 23px;
+}
+
+.shortcut-hint {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.shortcut-hint span {
+  border-radius: 6px;
+  background: var(--surface-soft);
+  padding: 4px 7px;
+  color: var(--subtle);
+  font-family: ui-monospace, "Cascadia Code", monospace;
+  font-size: 8px;
+}
+
+.transcript-list {
+  display: grid;
+  gap: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+
+.transcript-line {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  padding: 11px;
+  color: var(--ink);
+  text-align: left;
+}
+
+.transcript-line:hover {
+  background: var(--surface-soft);
+}
+
+.transcript-line-active {
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+  background: color-mix(in srgb, var(--accent-soft) 45%, var(--surface));
+}
+
+.transcript-order,
+.transcript-time {
+  color: var(--subtle);
+  font-size: 9px;
+}
+
+.transcript-copy {
+  min-width: 0;
+}
+
+.transcript-copy strong,
+.transcript-copy small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.transcript-copy strong {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 13px;
+}
+
+.transcript-copy small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.practice-layout[data-translation-size="medium"] .transcript-copy small {
+  font-size: 11px;
+}
+
+.practice-layout[data-translation-size="xlarge"] .transcript-copy small {
+  font-size: 16px;
+}
+
+.practice-aside {
+  display: grid;
+  align-content: start;
+  gap: 13px;
+}
+
+.practice-settings {
+  display: grid;
+  gap: 17px;
+}
+
+.practice-settings .section-heading-row {
+  margin-bottom: 0;
+}
+
+.practice-settings label {
+  display: grid;
+  gap: 8px;
+}
+
+.practice-settings label > span {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+input[type="range"] {
+  height: 5px;
+  min-height: 5px;
+  appearance: none;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line);
+  padding: 0;
+  accent-color: var(--accent);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  width: 16px;
+  height: 16px;
+  appearance: none;
+  border: 3px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 1px 6px rgb(0 0 0 / 20%);
+}
+
+.loop-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.option-button {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.option-button.active {
+  border-color: color-mix(in srgb, var(--accent) 44%, var(--line));
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.calibration-card {
+  display: grid;
+  gap: 13px;
+}
+
+.calibration-card .section-heading-row {
+  margin-bottom: 0;
+}
+
+.calibration-card h2,
+.calibration-card p {
+  margin: 0;
+}
+
+.calibration-card h2 {
+  margin-top: 3px;
+  font-size: 16px;
+}
+
+.calibration-line-number {
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.calibration-times {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.calibration-times > span {
+  display: grid;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  padding: 10px;
+}
+
+.calibration-times small {
+  color: var(--subtle);
+  font-size: 8px;
+}
+
+.calibration-times strong {
+  font-size: 12px;
+}
+
+.calibration-controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.calibration-controls button {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.calibration-controls button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.calibration-controls button:disabled {
+  cursor: wait;
+  opacity: 0.5;
+}
+
+.calibration-replay {
+  width: 100%;
+}
+
+.calibration-status,
+.calibration-help {
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.calibration-help {
+  color: var(--muted);
+}
+
+.calibration-status-saving {
+  color: var(--blue);
+}
+
+.calibration-status-saved {
+  color: var(--green);
+}
+
+.calibration-status-error {
+  color: var(--danger);
+}
+
+.practice-track-card {
+  display: grid;
+  gap: 15px;
+}
+
+.practice-track-card h2,
+.practice-track-card p {
+  margin: 0;
+}
+
+.practice-track-card h2 {
+  margin-top: 3px;
+  font-size: 16px;
+}
+
+.practice-track-card > div > span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.practice-track-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.practice-track-buttons .button {
+  min-width: 0;
+  min-height: 58px;
+  justify-content: flex-start;
+  padding-inline: 10px;
+}
+
+.practice-track-buttons .button.next {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.practice-track-buttons .button.disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.practice-track-buttons .button > span {
+  display: grid;
+  gap: 2px;
+}
+
+.practice-track-buttons .button small {
+  color: var(--subtle);
+  font-size: 8px;
+}
+
+.player-dock {
+  position: fixed;
+  z-index: 18;
+  right: clamp(16px, 3vw, 42px);
+  bottom: 16px;
+  left: calc(var(--sidebar-width) + clamp(16px, 3vw, 42px));
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 19px;
+  background: color-mix(in srgb, var(--surface-strong) 96%, transparent);
+  box-shadow: 0 16px 46px rgb(26 36 32 / 21%);
+  backdrop-filter: blur(18px);
+}
+
+.sidebar-is-collapsed .player-dock {
+  left: clamp(16px, 3vw, 42px);
+}
+
+.player-error {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-bottom: 1px solid color-mix(in srgb, var(--danger) 24%, var(--line));
+  background: var(--danger-soft);
+  padding: 8px 16px;
+  color: var(--danger);
+  font-size: 9px;
+}
+
+.player-main {
+  display: grid;
+  grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 11px 16px 6px;
+}
+
+.player-line-summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 9px;
+}
+
+.player-line-summary > span:last-child {
+  overflow: hidden;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 11px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-transport {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.transport-button {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+}
+
+.transport-button:hover {
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.play-button {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 7px 17px rgb(219 91 61 / 24%);
+  color: white;
+}
+
+.play-button:hover {
+  background: var(--accent-hover);
+  transform: scale(1.02);
+}
+
+.player-rate {
+  display: flex;
+  align-items: center;
+  justify-self: end;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.seek-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 36px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px 11px;
+}
+
+.seek-row time {
+  color: var(--subtle);
+  font-size: 8px;
+}
+
+.seek-row time:last-child {
+  text-align: right;
+}
+
+.seek-row input[type="range"] {
+  background: linear-gradient(
+    to right,
+    var(--accent) 0 var(--seek-progress),
+    var(--line) var(--seek-progress) 100%
+  );
+}
+
+.shadowing-layout,
+.recording-panel {
+  display: grid;
+  gap: 16px;
+}
+
+.shadowing-mode-bar {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 6px;
+}
+
+.mode-pill {
+  display: grid;
+  min-height: 54px;
+  place-content: center;
+  border-radius: 12px;
+  background: transparent;
+  padding: 7px;
+  color: var(--muted);
+}
+
+.mode-pill:hover {
+  background: var(--surface-soft);
+}
+
+.mode-pill.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.mode-pill span,
+.mode-pill small {
+  display: block;
+}
+
+.mode-pill span {
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.mode-pill small {
+  margin-top: 3px;
+  opacity: 0.75;
+  font-size: 7px;
+}
+
+.shadowing-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(420px, 1.18fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.shadowing-prompt {
+  position: sticky;
+  top: 24px;
+}
+
+.shadowing-prompt-top,
+.shadowing-nav,
+.recording-primary,
+.waveform-heading,
+.rating-row,
+.recording-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.shadowing-prompt-top .badge {
+  margin-top: 8px;
+}
+
+.reference-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.shadowing-line {
+  display: grid;
+  min-height: 330px;
+  place-content: center;
+  margin: 20px 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background:
+    radial-gradient(
+      circle at 50% 20%,
+      color-mix(in srgb, var(--accent-soft) 42%, transparent),
+      transparent 55%
+    ),
+    var(--surface-strong);
+  padding: 28px;
+  text-align: center;
+}
+
+.shadowing-line p {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(25px, 3vw, 36px);
+  font-weight: 650;
+  line-height: 1.7;
+}
+
+.shadowing-line span {
+  margin-top: 15px;
+  color: var(--blue);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.shadowing-line small {
+  margin-top: 15px;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.shadowing-nav > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--muted);
+  font-size: 8px;
+  text-align: center;
+}
+
+.recording-primary {
+  justify-content: flex-start;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-strong);
+  padding: 15px;
+}
+
+.record-button {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 4px solid var(--surface);
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 8px 19px rgb(219 91 61 / 23%);
+  color: white;
+}
+
+.record-button.recording {
+  background: var(--danger);
+  box-shadow:
+    0 0 0 1px var(--danger),
+    0 0 0 8px color-mix(in srgb, var(--danger) 13%, transparent);
+  animation: record-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes record-pulse {
+  50% {
+    box-shadow:
+      0 0 0 1px var(--danger),
+      0 0 0 14px color-mix(in srgb, var(--danger) 3%, transparent);
+  }
+}
+
+.recording-primary strong,
+.recording-primary span {
+  display: block;
+}
+
+.recording-primary strong {
+  font-size: 12px;
+}
+
+.recording-primary span {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.recording-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 3px;
+  border-radius: 50%;
+  background: var(--danger);
+  animation: blink 900ms ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.countdown-display {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  gap: 12px;
+}
+
+.countdown-display strong {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 26px;
+}
+
+.countdown-display span {
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.waveform-comparison {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+.waveform-comparison article {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface-strong);
+  padding: 11px;
+}
+
+.waveform-heading span {
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.waveform-play {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface-soft);
+  color: var(--ink);
+}
+
+.waveform-play:hover:not(:disabled) {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.waveform {
+  display: flex;
+  height: 66px;
+  align-items: center;
+  gap: 1.5px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.waveform span {
+  display: block;
+  min-width: 1px;
+  flex: 1;
+  border-radius: 999px;
+}
+
+.waveform-reference span {
+  background: var(--blue);
+}
+
+.waveform-recording span {
+  background: var(--accent);
+}
+
+.waveform-comparison article > small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--subtle);
+  font-size: 8px;
+}
+
+.waveform-disabled {
+  opacity: 0.45;
+}
+
+.rhythm-hint {
+  display: flex;
+  gap: 9px;
+  border-radius: 13px;
+  background: var(--gold-soft);
+  padding: 12px;
+  color: var(--gold);
+}
+
+.rhythm-hint > svg {
+  flex: 0 0 auto;
+}
+
+.rhythm-hint strong {
+  font-size: 10px;
+}
+
+.rhythm-hint p {
+  margin: 4px 0 0;
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.self-rating {
+  display: grid;
+  gap: 10px;
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+}
+
+.self-rating h3 {
+  margin: 0 0 2px;
+  font-size: 11px;
+}
+
+.self-rating h3 small {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.rating-row > span,
+.self-rating label > span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.rating-row > div {
+  display: flex;
+  gap: 5px;
+}
+
+.score {
+  display: grid;
+  width: 29px;
+  height: 29px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 750;
+}
+
+.score:hover {
+  border-color: var(--accent);
+}
+
+.score.active {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: white;
+}
+
+.self-rating label {
+  display: grid;
+  gap: 6px;
+}
+
+.recording-actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.dictation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.dictation-card {
+  display: grid;
+  gap: 18px;
+}
+
+.dictation-topbar,
+.dictation-audio-actions,
+.dictation-options,
+.result-heading,
+.result-actions,
+.dictation-nav,
+.dictation-next-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.dictation-topbar .badge {
+  margin-top: 7px;
+}
+
+.dictation-prompt {
+  display: grid;
+  min-height: 185px;
+  place-content: center;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 50% 40%,
+      color-mix(in srgb, var(--blue-soft) 58%, transparent),
+      transparent 65%
+    ),
+    var(--surface-strong);
+  padding: 24px;
+  text-align: center;
+}
+
+.dictation-prompt > svg {
+  justify-self: center;
+  color: var(--blue);
+}
+
+.dictation-prompt h2 {
+  margin: 13px 0 5px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+}
+
+.dictation-prompt > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.hint-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 14px;
+  border-radius: 10px;
+  background: var(--gold-soft);
+  padding: 8px 11px;
+  color: var(--gold);
+  font-size: 9px;
+}
+
+.dictation-input {
+  display: grid;
+  gap: 7px;
+}
+
+.dictation-input > span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.dictation-input textarea {
+  min-height: 128px;
+  padding: 17px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+  line-height: 1.7;
+}
+
+.dictation-options {
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.dictation-options label,
+.review-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.dictation-options input[type="checkbox"],
+.review-checkbox input[type="checkbox"] {
+  width: 15px;
+  min-height: 15px;
+  accent-color: var(--accent);
+}
+
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  color: var(--blue);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.answer-reveal {
+  display: grid;
+  gap: 5px;
+  border-radius: 13px;
+  background: var(--green-soft);
+  padding: 13px;
+}
+
+.answer-reveal span,
+.answer-reveal small {
+  color: var(--green);
+  font-size: 8px;
+}
+
+.answer-reveal strong {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 15px;
+}
+
+.dictation-check {
+  width: 100%;
+}
+
+.dictation-side {
+  position: sticky;
+  top: 24px;
+}
+
+.dictation-side h2 {
+  margin: 5px 0 20px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+}
+
+.dictation-side ol {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dictation-side li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.dictation-side li > span {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 8px;
+  background: var(--surface-soft);
+  color: var(--accent);
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.dictation-nav {
+  margin-top: 26px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+
+.dictation-nav > span {
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.dictation-result {
+  display: grid;
+  gap: 18px;
+}
+
+.dictation-result.result-correct {
+  border-color: color-mix(in srgb, var(--green) 34%, var(--line));
+}
+
+.dictation-result.result-needs-work {
+  border-color: color-mix(in srgb, var(--gold) 35%, var(--line));
+}
+
+.result-heading {
+  justify-content: flex-start;
+}
+
+.result-icon {
+  display: grid;
+  width: 47px;
+  height: 47px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 14px;
+}
+
+.result-correct .result-icon {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.result-needs-work .result-icon {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.result-heading h2,
+.result-heading p {
+  margin: 0;
+}
+
+.result-heading h2 {
+  margin-top: 3px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 19px;
+}
+
+.result-heading > div > p:last-child {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.accuracy-ring {
+  display: grid;
+  width: 60px;
+  height: 60px;
+  margin-left: auto;
+  place-items: center;
+  border: 5px solid var(--surface-soft);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 13px;
+}
+
+.diff-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.diff-legend span {
+  border-radius: 999px;
+  padding: 4px 7px;
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.diff-equal {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.diff-replace {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.diff-missing {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.diff-extra {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.diff-display {
+  display: flex;
+  min-height: 115px;
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 3px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface-strong);
+  padding: 20px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 20px;
+  line-height: 1.8;
+}
+
+.diff-char {
+  display: inline-grid;
+  min-width: 22px;
+  place-items: center;
+  border-radius: 5px;
+  padding: 1px 3px;
+}
+
+.diff-char.diff-equal {
+  background: color-mix(in srgb, var(--green-soft) 72%, transparent);
+}
+
+.diff-char.diff-replace {
+  grid-template-rows: 1fr 1fr;
+  background: var(--danger-soft);
+  font-size: 14px;
+}
+
+.diff-char.diff-replace del {
+  color: var(--danger);
+}
+
+.diff-char.diff-replace ins,
+.diff-char.diff-missing ins {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.diff-char.diff-missing {
+  border: 1px dashed var(--gold);
+  background: var(--gold-soft);
+}
+
+.diff-char.diff-extra {
+  background: var(--blue-soft);
+  color: var(--blue);
+}
+
+.diff-stats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.diff-stats span {
+  border-radius: 10px;
+  background: var(--surface-soft);
+  padding: 9px;
+  color: var(--muted);
+  font-size: 8px;
+  text-align: center;
+}
+
+.diff-stats b {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.review-checkbox {
+  border-radius: 11px;
+  background: var(--surface-soft);
+  padding: 10px;
+}
+
+.result-actions {
+  justify-content: flex-end;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+
+.dictation-next-row {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+
+.dictation-next-row > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--green);
+  font-size: 9px;
+}
+
+.roleplay-layout {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.38fr) minmax(0, 0.62fr);
+  align-items: start;
+  gap: 16px;
+}
+
+.roleplay-settings {
+  display: grid;
+  gap: 16px;
+}
+
+.roleplay-settings .section-heading-row {
+  margin-bottom: 0;
+}
+
+.role-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.role-option {
+  display: grid;
+  min-height: 78px;
+  place-content: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-strong);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.role-option > svg {
+  justify-self: center;
+}
+
+.role-option:hover {
+  border-color: var(--accent);
+}
+
+.role-option.active {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.wait-setting {
+  display: grid;
+  gap: 7px;
+}
+
+.wait-setting > span {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.roleplay-help {
+  display: flex;
+  gap: 7px;
+  border-radius: 11px;
+  background: var(--gold-soft);
+  padding: 10px;
+  color: var(--gold);
+  font-size: 9px;
+  line-height: 1.5;
+}
+
+.roleplay-stage {
+  display: grid;
+  min-height: 530px;
+  align-content: start;
+  gap: 18px;
+}
+
+.roleplay-progress {
+  display: grid;
+  gap: 7px;
+}
+
+.roleplay-progress > span {
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 750;
+}
+
+.roleplay-progress > div {
+  display: flex;
+  gap: 4px;
+}
+
+.roleplay-progress i {
+  height: 4px;
+  flex: 1;
+  border-radius: 999px;
+  background: var(--line);
+}
+
+.roleplay-progress i.done {
+  background: var(--green);
+}
+
+.roleplay-progress i.active {
+  background: var(--accent);
+}
+
+.roleplay-idle,
+.roleplay-complete,
+.roleplay-turn {
+  display: grid;
+  min-height: 420px;
+  place-content: center;
+  justify-items: center;
+  text-align: center;
+}
+
+.roleplay-mark {
+  display: grid;
+  width: 86px;
+  height: 86px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 42px;
+}
+
+.roleplay-idle h2,
+.roleplay-complete h2 {
+  max-width: 420px;
+  margin: 20px 0 7px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 23px;
+}
+
+.roleplay-idle p,
+.roleplay-complete p {
+  margin: 0 0 21px;
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.roleplay-turn {
+  place-content: start center;
+  padding-top: 34px;
+}
+
+.response-countdown {
+  display: grid;
+  min-height: 180px;
+  place-content: center;
+  margin: 25px 0;
+}
+
+.response-countdown strong {
+  display: grid;
+  width: 105px;
+  height: 105px;
+  place-items: center;
+  justify-self: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 46px;
+}
+
+.response-countdown > svg {
+  justify-self: center;
+  color: var(--danger);
+  animation: record-pulse 1.3s ease-in-out infinite;
+}
+
+.response-countdown span {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.roleplay-hints {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.roleplay-hints button {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface-strong);
+  padding: 0 10px;
+  color: var(--muted);
+  font-size: 8px;
+  font-weight: 700;
+}
+
+.roleplay-hints button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.roleplay-hint-text,
+.roleplay-first,
+.roleplay-answer {
+  margin: 10px 0 0;
+}
+
+.roleplay-hint-text {
+  color: var(--blue);
+  font-size: 11px;
+}
+
+.roleplay-first {
+  color: var(--accent);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 22px;
+}
+
+.roleplay-answer {
+  max-width: 520px;
+  color: var(--ink);
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 22px;
+  line-height: 1.7;
+}
+
+.roleplay-turn > .button {
+  margin-top: 20px;
+}
+
+.partner-turn {
+  display: grid;
+  min-height: 260px;
+  place-content: center;
+}
+
+.partner-turn > svg {
+  justify-self: center;
+  color: var(--blue);
+}
+
+.partner-turn span {
+  margin-top: 11px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.partner-turn p {
+  max-width: 520px;
+  margin: 24px 0 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 25px;
+  line-height: 1.7;
+}
+
+.complete-mark {
+  display: grid;
+  width: 70px;
+  height: 70px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.roleplay-review {
+  grid-column: 1 / -1;
+}
+
+.roleplay-attempts {
+  display: grid;
+  gap: 7px;
+}
+
+.roleplay-attempts article {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(180px, 250px);
+  align-items: center;
+  gap: 11px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 11px;
+}
+
+.roleplay-attempts strong,
+.roleplay-attempts small {
+  display: block;
+}
+
+.roleplay-attempts strong {
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 12px;
+}
+
+.roleplay-attempts small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.roleplay-attempts audio {
+  width: 100%;
+  height: 32px;
+}
+
+.partner-label {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.expression-workspace,
+.expression-review {
+  display: grid;
+  gap: 16px;
+}
+
+.expression-toolbar {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) auto auto auto;
+  gap: 8px;
+  padding: 10px;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  padding-left: 11px;
+  color: var(--subtle);
+}
+
+.search-field input {
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  padding-left: 0;
+}
+
+.search-field input:focus {
+  outline: none;
+}
+
+.filter-button {
+  display: inline-flex;
+  min-height: 41px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--line-strong);
+  border-radius: 11px;
+  background: var(--surface-strong);
+  padding: 0 11px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.filter-button.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.expression-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.expression-summary > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.expression-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.expression-card {
+  display: flex;
+  min-height: 375px;
+  flex-direction: column;
+}
+
+.expression-card-top,
+.expression-card-footer,
+.flashcard-top,
+.review-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.favorite-plain {
+  background: transparent;
+  color: var(--accent);
+}
+
+.expression-main {
+  margin: 27px 0 20px;
+}
+
+.expression-main h2 {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 25px;
+  font-weight: 650;
+  line-height: 1.45;
+}
+
+.expression-main p {
+  margin: 6px 0 0;
+  color: var(--blue);
+  font-size: 10px;
+}
+
+.expression-explanation p,
+.expression-explanation small {
+  display: block;
+  margin: 0;
+}
+
+.expression-explanation p {
+  font-size: 11px;
+  line-height: 1.65;
+}
+
+.expression-explanation small {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.55;
+}
+
+.expression-card blockquote,
+.flashcard-answer blockquote {
+  margin: 16px 0 0;
+  border-left: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent-soft) 37%, transparent);
+  padding: 9px 11px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.expression-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.expression-tags span {
+  border-radius: 999px;
+  background: var(--surface-soft);
+  padding: 4px 7px;
+  color: var(--muted);
+  font-size: 8px;
+}
+
+.expression-card-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--line);
+  padding-top: 15px;
+}
+
+.expression-card-footer > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--green);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.expression-card-footer small {
+  color: var(--subtle);
+  font-size: 8px;
+}
+
+.review-toolbar > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.review-flashcard {
+  width: min(100%, 720px);
+  min-height: 520px;
+  justify-self: center;
+}
+
+.flashcard-expression {
+  margin: 60px 0 42px;
+  text-align: center;
+}
+
+.flashcard-expression p {
+  margin: 0;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: clamp(36px, 6vw, 62px);
+  font-weight: 650;
+  line-height: 1.4;
+}
+
+.flashcard-expression span {
+  display: block;
+  margin-top: 10px;
+  color: var(--blue);
+  font-size: 13px;
+}
+
+.flashcard-answer {
+  border-top: 1px solid var(--line);
+  padding-top: 23px;
+}
+
+.flashcard-answer > p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.flashcard-answer > small {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.reveal-answer {
+  display: flex;
+  width: 100%;
+  min-height: 65px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px dashed var(--line-strong);
+  border-radius: 14px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.reveal-answer:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.review-rating-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 28px;
+}
+
+.review-rating-actions button {
+  display: grid;
+  min-height: 60px;
+  place-content: center;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.review-rating-actions button small {
+  display: block;
+  margin-top: 3px;
+  opacity: 0.75;
+  font-size: 7px;
+}
+
+.rating-again {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.rating-uncertain {
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.rating-know {
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.empty-review {
+  display: grid;
+  min-height: 260px;
+  place-content: center;
+  justify-items: center;
+  color: var(--muted);
+  text-align: center;
+}
+
+.empty-review h2 {
+  margin: 13px 0 5px;
+  font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
+  font-size: 19px;
+}
+
+.empty-review p {
+  margin: 0;
+  font-size: 9px;
+}
+
+@media (max-width: 1100px) {
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dashboard-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .unit-card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .practice-mode-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-two-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .practice-aside {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shadowing-mode-bar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .shadowing-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .shadowing-prompt {
+    position: static;
+  }
+
+  .dictation-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .dictation-side {
+    position: static;
+  }
+
+  .roleplay-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .expression-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 780px) {
+  .sidebar {
+    width: min(86vw, 300px);
+    transform: translateX(-104%);
+    transition: transform 220ms ease;
+  }
+
+  .sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-reopen-button {
+    display: none;
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    z-index: 25;
+    inset: 0;
+    display: block;
+    background: rgb(9 16 14 / 45%);
+    backdrop-filter: blur(2px);
+  }
+
+  .mobile-only {
+    display: grid;
+  }
+
+  .mobile-header {
+    position: sticky;
+    z-index: 20;
+    top: 0;
+    display: flex;
+    height: 64px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    padding: 0 16px;
+    backdrop-filter: blur(14px);
+  }
+
+  .mobile-brand {
+    font-size: 12px;
+  }
+
+  .app-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 24px 16px 104px;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    z-index: 22;
+    right: 12px;
+    bottom: max(10px, env(safe-area-inset-bottom));
+    left: 12px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 19px;
+    background: color-mix(in srgb, var(--surface-strong) 94%, transparent);
+    padding: 5px;
+    box-shadow: 0 13px 38px rgb(23 32 29 / 18%);
+    backdrop-filter: blur(18px);
+  }
+
+  .bottom-link {
+    display: flex;
+    min-height: 51px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    border-radius: 14px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 700;
+  }
+
+  .bottom-link-active {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+
+  .page-heading {
+    align-items: flex-start;
+  }
+
+  .page-heading h1 {
+    font-size: 31px;
+  }
+
+  .today-hero {
+    min-height: 0;
+    grid-template-columns: 1fr;
+    padding: 27px 22px;
+  }
+
+  .practice-stamp {
+    position: absolute;
+    right: -36px;
+    top: -32px;
+    width: 130px;
+    opacity: 0.25;
+  }
+
+  .today-hero-copy {
+    max-width: none;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-summary {
+    display: none;
+  }
+
+  .unit-detail-header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .unit-detail-progress {
+    grid-column: 1 / -1;
+    text-align: left;
+  }
+
+  .lesson-list-item {
+    grid-template-columns: auto 1fr;
+  }
+
+  .lesson-list-actions {
+    grid-column: 2;
+    grid-template-columns: auto auto;
+    align-items: center;
+  }
+
+  .course-track-card {
+    grid-template-columns: 54px minmax(0, 1fr);
+  }
+
+  .course-track-action {
+    grid-column: 2;
+  }
+
+  .track-pager {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .track-pager-current {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .track-pager > :first-child {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .track-pager > :last-child {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .dialogue-row {
+    grid-template-columns: auto 1fr;
+  }
+
+  .dialogue-row time {
+    grid-column: 2;
+  }
+
+  .player-dock {
+    right: 12px;
+    bottom: 76px;
+    left: 12px;
+  }
+
+  .player-main {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .player-line-summary {
+    display: none;
+  }
+
+  .player-transport {
+    grid-column: 1;
+    justify-self: start;
+  }
+
+  .player-rate {
+    grid-column: 2;
+  }
+
+  .shadowing-mode-bar {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .mode-pill {
+    min-width: 115px;
+  }
+
+  .dictation-topbar {
+    align-items: flex-start;
+  }
+
+  .expression-toolbar {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-field {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-stack {
+    gap: 18px;
+  }
+
+  .dashboard-heading .badge {
+    display: none;
+  }
+
+  .metric-card {
+    padding: 14px;
+  }
+
+  .metric-card > div {
+    display: block;
+  }
+
+  .metric-card strong,
+  .metric-card span:not(.metric-icon) {
+    display: block;
+  }
+
+  .metric-card strong {
+    font-size: 22px;
+  }
+
+  .recent-lesson {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .recent-meta {
+    display: none;
+  }
+
+  .surface {
+    border-radius: 18px;
+    padding: 18px;
+  }
+
+  .unit-card-grid,
+  .practice-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .unit-card {
+    min-height: 330px;
+  }
+
+  .unit-detail-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .unit-detail-number {
+    justify-self: center;
+  }
+
+  .unit-detail-progress {
+    text-align: center;
+  }
+
+  .lesson-list-item {
+    grid-template-columns: 1fr;
+    gap: 13px;
+  }
+
+  .lesson-section-no {
+    width: auto;
+    border-right: 0;
+    text-align: left;
+  }
+
+  .lesson-section-no small,
+  .lesson-section-no strong {
+    display: inline;
+    margin-right: 5px;
+  }
+
+  .lesson-list-actions {
+    grid-column: 1;
+    grid-template-columns: auto 1fr;
+  }
+
+  .lesson-list-actions .button {
+    width: 100%;
+  }
+
+  .course-section-header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .course-section-header > .badge {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .course-track-card {
+    grid-template-columns: 1fr;
+  }
+
+  .course-track-number {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    border-right: 0;
+    text-align: left;
+  }
+
+  .course-track-number strong {
+    font-size: 22px;
+  }
+
+  .course-track-action {
+    grid-column: 1;
+  }
+
+  .course-track-action .button {
+    width: 100%;
+  }
+
+  .lesson-meta > span:not(.badge):last-child {
+    display: none;
+  }
+
+  .form-grid.two {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-upload-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-upload-panel > .button {
+    width: 100%;
+  }
+
+  .audio-asset-row {
+    grid-template-columns: 1.4fr 1fr auto;
+  }
+
+  .audio-asset-row > :nth-child(3) {
+    display: none;
+  }
+
+  .practice-page {
+    padding-bottom: 125px;
+  }
+
+  .practice-stage {
+    padding: 16px;
+  }
+
+  .practice-stage-top {
+    display: grid;
+  }
+
+  .visibility-controls {
+    justify-content: flex-start;
+  }
+
+  .current-line-card {
+    min-height: 255px;
+    padding: 26px 18px;
+  }
+
+  .current-japanese {
+    font-size: 27px;
+  }
+
+  .line-navigation {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .line-navigation .button {
+    width: 100%;
+  }
+
+  .shortcut-hint {
+    display: none;
+  }
+
+  .transcript-line {
+    grid-template-columns: auto auto minmax(0, 1fr);
+  }
+
+  .transcript-time {
+    display: none;
+  }
+
+  .practice-aside {
+    grid-template-columns: 1fr;
+  }
+
+  .player-main {
+    padding: 8px 12px 4px;
+  }
+
+  .seek-row {
+    padding: 0 12px 9px;
+  }
+
+  .shadowing-line {
+    min-height: 260px;
+    padding: 22px 16px;
+  }
+
+  .shadowing-line p {
+    font-size: 26px;
+  }
+
+  .shadowing-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .shadowing-nav > span {
+    display: none;
+  }
+
+  .waveform-comparison {
+    grid-template-columns: 1fr;
+  }
+
+  .recording-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .recording-actions .button:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .dictation-topbar {
+    display: grid;
+  }
+
+  .dictation-audio-actions {
+    width: 100%;
+  }
+
+  .dictation-audio-actions .button:first-child {
+    flex: 1;
+  }
+
+  .dictation-prompt {
+    min-height: 170px;
+    padding: 20px 14px;
+  }
+
+  .diff-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .accuracy-ring {
+    width: 52px;
+    height: 52px;
+  }
+
+  .role-options {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .roleplay-stage {
+    min-height: 470px;
+  }
+
+  .roleplay-attempts article {
+    grid-template-columns: auto 1fr;
+  }
+
+  .roleplay-attempts audio,
+  .roleplay-attempts .partner-label {
+    grid-column: 2;
+  }
+
+  .expression-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .search-field {
+    grid-column: 1;
+  }
+
+  .expression-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .expression-card {
+    min-height: 340px;
+  }
+
+  .review-flashcard {
+    min-height: 480px;
+  }
+
+  .flashcard-expression {
+    margin: 42px 0 32px;
+  }
+
+  .review-rating-actions {
+    gap: 5px;
+  }
+}
+
+.offline-page {
+  width: min(620px, calc(100% - 32px));
+  margin: clamp(48px, 12vh, 120px) auto;
+  padding: clamp(28px, 6vw, 52px);
+  text-align: center;
+}
+
+.offline-page > span {
+  display: inline-grid;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 18px;
+  place-items: center;
+  border-radius: 22px;
+  color: var(--vermillion);
+  background: var(--vermillion-soft);
+}
+
+.offline-page h1 {
+  margin: 8px 0 12px;
+  font-size: clamp(30px, 6vw, 48px);
+  font-family: var(--font-serif-jp);
+}
+
+.offline-page > p:not(.eyebrow) {
+  max-width: 470px;
+  margin: 0 auto 24px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.offline-page > div {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

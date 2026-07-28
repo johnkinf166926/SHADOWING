@@ -1,0 +1,54 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# Next.js and vinext
+/.next/
+/.vinext/
+/out/
+/dist/
+
+# local runtime state
+/.wrangler/
+/outputs/
+/work/
+/data/
+/uploads/
+/private_content/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite-journal
+
+# environment files
+.env*
+!.env.example
+
+# reports and logs
+/.dev-server*.log
+/.e2e-server*.log
+/.npm-*.log
+/.playwright/
+/playwright-report/
+/test-results/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# tooling and platform
+.vercel
+next-env.d.ts
+
+# misc
+.DS_Store
+*.pem

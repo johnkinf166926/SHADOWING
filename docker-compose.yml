@@ -1,0 +1,20 @@
+services:
+  shadowing-coach:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: file:../data/shadowing-coach.db
+      SPEECH_EVALUATION_PROVIDER: manual
+    volumes:
+      - shadowing-wrangler:/app/.wrangler
+      - shadowing-data:/app/data
+      - shadowing-uploads:/app/uploads
+      - ./private_content:/app/private_content:ro
+    restart: unless-stopped
+
+volumes:
+  shadowing-wrangler:
+  shadowing-data:
+  shadowing-uploads:

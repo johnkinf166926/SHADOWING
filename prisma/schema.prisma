@@ -1,0 +1,251 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum LessonLevel {
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum PracticeMode {
+  FULL
+  SPEAKER_A
+  SPEAKER_B
+  DELAYED
+  SINGLE_LINE
+  FULL_DIALOGUE
+  ROLEPLAY_A
+  ROLEPLAY_B
+  ROLEPLAY_RANDOM
+}
+
+enum Speaker {
+  A
+  B
+  NARRATOR
+}
+
+enum ReviewRating {
+  KNOW
+  UNCERTAIN
+  AGAIN
+}
+
+enum LessonStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model Unit {
+  id          String   @id @default(cuid())
+  number      Int      @unique
+  title       String
+  subtitle    String?
+  description String?
+  lessons     Lesson[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lesson {
+  id              String            @id @default(cuid())
+  unitId          String
+  unit            Unit              @relation(fields: [unitId], references: [id], onDelete: Restrict)
+  sectionNumber   Int
+  level           LessonLevel
+  title           String
+  subtitle        String?
+  trackNumber     String            @unique
+  pdfPage         Int?
+  status          LessonStatus      @default(NOT_STARTED)
+  favorite        Boolean           @default(false)
+  audioAssetId    String?
+  audioAsset      AudioAsset?       @relation(fields: [audioAssetId], references: [id], onDelete: SetNull)
+  dialogues       Dialogue[]
+  expressions     LessonExpression[]
+  practiceSessions PracticeSession[]
+  dictationAttempts DictationAttempt[]
+  reviewItems     ReviewItem[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  @@index([unitId, sectionNumber])
+  @@index([unitId, status])
+  @@index([trackNumber])
+}
+
+model Dialogue {
+  id               String            @id @default(cuid())
+  lessonId         String
+  lesson           Lesson            @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  number           Int
+  lines            DialogueLine[]
+  practiceSessions PracticeSession[]
+
+  @@unique([lessonId, number])
+  @@index([lessonId])
+}
+
+model DialogueLine {
+  id               String            @id @default(cuid())
+  dialogueId       String
+  dialogue         Dialogue          @relation(fields: [dialogueId], references: [id], onDelete: Cascade)
+  order            Int
+  speaker          Speaker
+  text             String
+  reading          String?
+  translationZh    String?
+  translationEn    String?
+  startMs          Int?
+  endMs            Int?
+  note             String?
+  practiceSessions PracticeSession[]
+  dictationAttempts DictationAttempt[]
+  reviewItems      ReviewItem[]
+
+  @@unique([dialogueId, order])
+  @@index([dialogueId, order])
+  @@index([startMs, endMs])
+}
+
+model Expression {
+  id            String             @id @default(cuid())
+  expression    String
+  reading       String?
+  explanationZh String?
+  explanationJa String?
+  example       String?
+  tags          String             @default("[]")
+  masteryLevel  Int                @default(0)
+  nextReviewAt  DateTime?
+  favorite      Boolean            @default(false)
+  lessons       LessonExpression[]
+  reviewItems   ReviewItem[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+
+  @@index([nextReviewAt])
+  @@index([favorite])
+}
+
+model LessonExpression {
+  lessonId     String
+  expressionId String
+  lesson       Lesson     @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  expression   Expression @relation(fields: [expressionId], references: [id], onDelete: Cascade)
+
+  @@id([lessonId, expressionId])
+}
+
+model AudioAsset {
+  id           String   @id @default(cuid())
+  filename     String
+  storagePath  String   @unique
+  mimeType     String
+  sizeBytes    Int
+  durationMs   Int?
+  checksum     String?
+  lessons      Lesson[]
+  createdAt    DateTime @default(now())
+
+  @@index([filename])
+}
+
+model PracticeSession {
+  id                       String        @id @default(cuid())
+  lessonId                 String
+  lesson                   Lesson        @relation(fields: [lessonId], references: [id], onDelete: Restrict)
+  dialogueId               String?
+  dialogue                 Dialogue?     @relation(fields: [dialogueId], references: [id], onDelete: SetNull)
+  lineId                   String?
+  line                     DialogueLine? @relation(fields: [lineId], references: [id], onDelete: SetNull)
+  mode                     PracticeMode
+  startedAt                DateTime
+  durationMs               Int
+  recordingPath            String?
+  selfPronunciationScore   Int?
+  selfRhythmScore          Int?
+  selfFluencyScore         Int?
+  startedWithinTarget      Boolean?
+  completed                Boolean       @default(false)
+  note                     String?
+  recordings               Recording[]
+  createdAt                DateTime      @default(now())
+
+  @@index([lessonId, startedAt])
+  @@index([mode, startedAt])
+}
+
+model Recording {
+  id                String          @id @default(cuid())
+  practiceSessionId String?
+  practiceSession   PracticeSession? @relation(fields: [practiceSessionId], references: [id], onDelete: Cascade)
+  storagePath       String          @unique
+  mimeType          String
+  sizeBytes         Int
+  durationMs        Int?
+  createdAt         DateTime        @default(now())
+
+  @@index([practiceSessionId])
+}
+
+model DictationAttempt {
+  id          String        @id @default(cuid())
+  lessonId    String
+  lesson      Lesson        @relation(fields: [lessonId], references: [id], onDelete: Restrict)
+  lineId      String
+  line        DialogueLine  @relation(fields: [lineId], references: [id], onDelete: Restrict)
+  answer      String
+  normalized  String
+  accuracy    Float
+  correct     Boolean
+  diffJson    String
+  addedToReview Boolean     @default(false)
+  createdAt   DateTime      @default(now())
+
+  @@index([lessonId, createdAt])
+  @@index([lineId, correct])
+}
+
+model ReviewItem {
+  id            String         @id @default(cuid())
+  lessonId      String?
+  lesson        Lesson?        @relation(fields: [lessonId], references: [id], onDelete: SetNull)
+  lineId        String?
+  line          DialogueLine?  @relation(fields: [lineId], references: [id], onDelete: SetNull)
+  expressionId  String?
+  expression    Expression?    @relation(fields: [expressionId], references: [id], onDelete: SetNull)
+  easeFactor    Float          @default(2.5)
+  intervalDays  Int            @default(0)
+  repetitions   Int            @default(0)
+  nextReviewAt  DateTime
+  lastRating    ReviewRating?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([nextReviewAt])
+  @@index([expressionId])
+}
+
+model DailyStudyLog {
+  id          String   @id @default(cuid())
+  studyDate   DateTime @unique
+  durationMs  Int      @default(0)
+  lessonCount Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([studyDate])
+}
+
+model AppSetting {
+  key       String   @id
+  valueJson String
+  updatedAt DateTime @updatedAt
+}

@@ -1,0 +1,20 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1784866669233,
+      "tag": "0000_dark_harry_osborn",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1784870216111,
+      "tag": "0001_illegal_the_hand",
+      "breakpoints": true
+    }
+  ]
+}

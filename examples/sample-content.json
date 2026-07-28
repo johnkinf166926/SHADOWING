@@ -1,0 +1,53 @@
+{
+  "unit": {
+    "number": 9,
+    "title": "サンプル会話",
+    "subtitle": "虚构示例课程",
+    "description": "仅用于验证导入、播放与听写流程。"
+  },
+  "lessons": [
+    {
+      "sectionNumber": 1,
+      "level": "INTERMEDIATE",
+      "title": "予定を確認する",
+      "subtitle": "确认时间安排",
+      "trackNumber": "SAMPLE-01",
+      "pdfPage": 1,
+      "dialogues": [
+        {
+          "number": 1,
+          "lines": [
+            {
+              "order": 1,
+              "speaker": "A",
+              "text": "明日の予定を確認してもいいですか。",
+              "reading": "あしたの よていを かくにんしても いいですか。",
+              "translationZh": "可以确认一下明天的安排吗？",
+              "startMs": 0,
+              "endMs": 3000
+            },
+            {
+              "order": 2,
+              "speaker": "B",
+              "text": "はい、午前十時からです。",
+              "reading": "はい、ごぜん じゅうじからです。",
+              "translationZh": "好的，从上午十点开始。",
+              "startMs": 3300,
+              "endMs": 6200
+            }
+          ]
+        }
+      ],
+      "expressions": [
+        {
+          "expression": "〜てもいいですか",
+          "reading": "〜ても いいですか",
+          "explanationZh": "询问是否可以做某事。",
+          "explanationJa": "許可を求めるときの表現。",
+          "example": "ここに座ってもいいですか。",
+          "tags": ["許可", "会話"]
+        }
+      ]
+    }
+  ]
+}
