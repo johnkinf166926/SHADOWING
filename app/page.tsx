@@ -13,19 +13,19 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { buildCourseSections } from "@/lib/course-structure";
-import { getCourseUnit, listCourseUnits } from "@/lib/server/course-content";
+import {
+  getHomeCourseTarget,
+  listCourseOverviews,
+} from "@/lib/server/course-content";
 
 export default async function Home() {
-  const units = await listCourseUnits();
-  const nextLesson = units.flatMap((unit) => unit.lessons)[0];
-  const nextUnit = units.find((unit) => unit.id === nextLesson?.unitId);
-  const nextUnitDetail = nextUnit
-    ? await getCourseUnit(nextUnit.id)
-    : undefined;
-  const nextTrack = nextUnitDetail
-    ? buildCourseSections(nextUnitDetail.lessons)[0]?.tracks[0]
-    : undefined;
+  const [units, nextCourse] = await Promise.all([
+    listCourseOverviews(),
+    getHomeCourseTarget(),
+  ]);
+  const nextLesson = nextCourse?.lesson;
+  const nextUnit = nextCourse?.unit;
+  const nextTrack = nextCourse?.track;
   const nextPracticeHref =
     nextLesson && nextTrack
       ? `/practice/${nextLesson.id}?dialogue=${nextTrack.id}`

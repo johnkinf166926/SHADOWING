@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { listCourseUnits } from "@/lib/server/course-content";
+import { listCourseOverviews } from "@/lib/server/course-content";
 
 export const metadata = {
   title: "课程",
@@ -16,15 +16,9 @@ export const metadata = {
 };
 
 export default async function UnitsPage() {
-  const units = await listCourseUnits();
+  const units = await listCourseOverviews();
   const trackCount = units.reduce(
-    (count, unit) =>
-      count +
-      unit.lessons.reduce(
-        (unitCount, lesson) =>
-          unitCount + (lesson.dialogueCount ?? lesson.dialogues.length),
-        0,
-      ),
+    (count, unit) => count + unit.trackCount,
     0,
   );
 
@@ -82,17 +76,12 @@ export default async function UnitsPage() {
                 完成度
               </span>
               <span>
-                {unit.lessons.reduce(
-                  (count, lesson) =>
-                    count + (lesson.dialogueCount ?? lesson.dialogues.length),
-                  0,
-                )}{" "}
-                个 Track
+                {unit.trackCount} 个 Track
               </span>
               <Progress value={unit.progress} label={`${unit.title}完成度`} />
             </div>
             <div className="unit-card-footer">
-              {unit.lessons.length > 0 ? (
+              {unit.lessonCount > 0 ? (
                 <Link
                   className="button button-primary"
                   href={`/units/${unit.id}`}

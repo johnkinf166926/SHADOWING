@@ -179,7 +179,7 @@ for (const unit of unitDefinitions) {
       title: unit.title,
       subtitle: unit.subtitle,
       description:
-        "由本机扫描版教材生成。日文与中文为 OCR 草稿，请结合原 PDF 核对；教材音频需另行关联。",
+        "由本机扫描版教材生成。日文与中文为 OCR 草稿，请结合原 PDF 核对。",
     },
     lessons,
   });
