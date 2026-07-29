@@ -8,6 +8,7 @@ import type {
   Unit,
 } from "../types";
 import type { CourseTrack, CourseTrackReference } from "../course-structure";
+import { calculateStudyStreak, studyDateKey } from "../study-date";
 import { ensureDatabase } from "./database";
 import { getDatabase } from "./runtime";
 
@@ -99,6 +100,18 @@ interface HomeCourseTargetRow {
   trackNumber: number | null;
 }
 
+interface HomeDashboardStatsRow {
+  todayDurationMs: number;
+  todaySessionCount: number;
+  pendingReviewCount: number;
+  dictationAccuracy: number | null;
+  averageSelfRating: number | null;
+}
+
+interface StudyDayRow {
+  studyDate: string;
+}
+
 interface TrackContextRow extends LessonRow {
   dialogueId: string;
   dialogueNumber: number;
@@ -173,6 +186,18 @@ export interface HomeCourseTarget {
     id: string;
     number: number;
   };
+}
+
+export interface HomeDashboardStats {
+  todayDurationMs: number;
+  todayMinutes: number;
+  todaySessionCount: number;
+  goalMinutes: number;
+  goalProgress: number;
+  streakDays: number;
+  pendingReviewCount: number;
+  dictationAccuracy?: number;
+  averageSelfRating?: number;
 }
 
 export interface LessonWithUnit extends Lesson {
@@ -565,7 +590,15 @@ export async function getHomeCourseTarget(): Promise<
            ) AS lastPracticedAt
          FROM lessons l
          JOIN units u ON u.id = l.unit_id
-         ORDER BY u.number, l.section_number, l.track_number
+         ORDER BY
+           CASE l.status
+             WHEN 'IN_PROGRESS' THEN 0
+             WHEN 'NOT_STARTED' THEN 1
+             ELSE 2
+           END,
+           u.number,
+           l.section_number,
+           l.track_number
          LIMIT 1
        ),
        numbered_tracks AS (
@@ -618,6 +651,115 @@ export async function getHomeCourseTarget(): Promise<
       row.dialogueId && row.trackNumber !== null
         ? { id: row.dialogueId, number: Number(row.trackNumber) }
         : undefined,
+  };
+}
+
+export async function getHomeDashboardStats(
+  now = new Date(),
+): Promise<HomeDashboardStats> {
+  await ensureDatabase();
+  const database = getDatabase();
+  const today = studyDateKey(now);
+  const nowIso = now.toISOString();
+  const [stats, studyDays] = await Promise.all([
+    database
+      .prepare(
+        `SELECT
+          (
+            SELECT COALESCE(SUM(duration_ms), 0)
+            FROM practice_sessions
+            WHERE completed = 1
+              AND date(started_at, '+9 hours') = ?
+          ) AS todayDurationMs,
+          (
+            SELECT COUNT(*)
+            FROM practice_sessions
+            WHERE completed = 1
+              AND date(started_at, '+9 hours') = ?
+          ) AS todaySessionCount,
+          (
+            SELECT COUNT(*)
+            FROM review_items
+            WHERE next_review_at <= ?
+          ) + (
+            SELECT COUNT(*)
+            FROM expressions
+            WHERE next_review_at IS NOT NULL
+              AND next_review_at <= ?
+          ) AS pendingReviewCount,
+          (
+            SELECT AVG(accuracy)
+            FROM (
+              SELECT accuracy
+              FROM dictation_attempts
+              ORDER BY created_at DESC
+              LIMIT 12
+            )
+          ) AS dictationAccuracy,
+          (
+            SELECT AVG(sessionScore)
+            FROM (
+              SELECT
+                (
+                  COALESCE(self_pronunciation_score, 0) +
+                  COALESCE(self_rhythm_score, 0) +
+                  COALESCE(self_fluency_score, 0)
+                ) * 1.0 / (
+                  (self_pronunciation_score IS NOT NULL) +
+                  (self_rhythm_score IS NOT NULL) +
+                  (self_fluency_score IS NOT NULL)
+                ) AS sessionScore
+              FROM practice_sessions
+              WHERE self_pronunciation_score IS NOT NULL
+                 OR self_rhythm_score IS NOT NULL
+                 OR self_fluency_score IS NOT NULL
+              ORDER BY started_at DESC
+              LIMIT 12
+            )
+          ) AS averageSelfRating`,
+      )
+      .bind(today, today, nowIso, nowIso)
+      .first<HomeDashboardStatsRow>(),
+    database
+      .prepare(
+        `SELECT DISTINCT date(started_at, '+9 hours') AS studyDate
+         FROM practice_sessions
+         WHERE completed = 1
+         ORDER BY studyDate DESC
+         LIMIT 400`,
+      )
+      .all<StudyDayRow>(),
+  ]);
+
+  const todayDurationMs = Number(stats?.todayDurationMs ?? 0);
+  const todayMinutes =
+    todayDurationMs > 0 ? Math.max(1, Math.round(todayDurationMs / 60_000)) : 0;
+  const goalMinutes = 20;
+
+  return {
+    todayDurationMs,
+    todayMinutes,
+    todaySessionCount: Number(stats?.todaySessionCount ?? 0),
+    goalMinutes,
+    goalProgress: Math.min(
+      100,
+      Math.round((todayDurationMs / (goalMinutes * 60_000)) * 100),
+    ),
+    streakDays: calculateStudyStreak(
+      studyDays.results.map((row) => row.studyDate),
+      today,
+    ),
+    pendingReviewCount: Number(stats?.pendingReviewCount ?? 0),
+    dictationAccuracy:
+      stats?.dictationAccuracy === null ||
+      stats?.dictationAccuracy === undefined
+        ? undefined
+        : Math.round(Number(stats.dictationAccuracy)),
+    averageSelfRating:
+      stats?.averageSelfRating === null ||
+      stats?.averageSelfRating === undefined
+        ? undefined
+        : Math.round(Number(stats.averageSelfRating) * 10) / 10,
   };
 }
 

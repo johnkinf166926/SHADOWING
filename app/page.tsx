@@ -14,14 +14,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
+  getHomeDashboardStats,
   getHomeCourseTarget,
   listCourseOverviews,
 } from "@/lib/server/course-content";
+import { studyTimeZone } from "@/lib/study-date";
 
 export default async function Home() {
-  const [units, nextCourse] = await Promise.all([
+  const [units, nextCourse, dashboard] = await Promise.all([
     listCourseOverviews(),
     getHomeCourseTarget(),
+    getHomeDashboardStats(),
   ]);
   const nextLesson = nextCourse?.lesson;
   const nextUnit = nextCourse?.unit;
@@ -33,6 +36,7 @@ export default async function Home() {
         ? `/practice/${nextLesson.id}`
         : "/admin";
   const today = new Intl.DateTimeFormat("zh-CN", {
+    timeZone: studyTimeZone,
     month: "long",
     day: "numeric",
     weekday: "long",
@@ -50,7 +54,7 @@ export default async function Home() {
         </div>
         <Badge tone="success">
           <Flame size={14} aria-hidden="true" />
-          连续 0 天
+          连续 {dashboard.streakDays} 天
         </Badge>
       </header>
 
@@ -73,10 +77,12 @@ export default async function Home() {
               : "教材管理 · 内容导入"}
           </p>
           <div className="today-progress-label">
-            <span>目标 20 分钟</span>
-            <span>0 / 20 分钟</span>
+            <span>目标 {dashboard.goalMinutes} 分钟</span>
+            <span>
+              {dashboard.todayMinutes} / {dashboard.goalMinutes} 分钟
+            </span>
           </div>
-          <Progress value={0} label="今日学习目标完成度" />
+          <Progress value={dashboard.goalProgress} label="今日学习目标完成度" />
           <div className="hero-actions">
             <Link className="button button-primary" href={nextPracticeHref}>
               <Headphones size={18} aria-hidden="true" />
@@ -103,17 +109,21 @@ export default async function Home() {
             <Clock3 size={19} />
           </span>
           <div>
-            <strong>0</strong>
+            <strong>{dashboard.todayMinutes}</strong>
             <span>今日分钟</span>
           </div>
-          <small>完成练习后自动累计</small>
+          <small>
+            {dashboard.todaySessionCount > 0
+              ? `已保存 ${dashboard.todaySessionCount} 次练习`
+              : "完成练习后自动累计"}
+          </small>
         </article>
         <article className="metric-card">
           <span className="metric-icon mint">
             <CalendarCheck size={19} />
           </span>
           <div>
-            <strong>0</strong>
+            <strong>{dashboard.pendingReviewCount}</strong>
             <span>待复习</span>
           </div>
           <small>表达卡片与错题</small>
@@ -123,7 +133,11 @@ export default async function Home() {
             <Target size={19} />
           </span>
           <div>
-            <strong>—</strong>
+            <strong>
+              {dashboard.dictationAccuracy === undefined
+                ? "—"
+                : `${dashboard.dictationAccuracy}%`}
+            </strong>
             <span>听写正确率</span>
           </div>
           <small>最近 12 次练习</small>
@@ -133,7 +147,11 @@ export default async function Home() {
             <TrendingUp size={19} />
           </span>
           <div>
-            <strong>—</strong>
+            <strong>
+              {dashboard.averageSelfRating === undefined
+                ? "—"
+                : `${dashboard.averageSelfRating.toFixed(1)} / 5`}
+            </strong>
             <span>平均自评</span>
           </div>
           <small>发音 · 节奏 · 流畅度</small>
