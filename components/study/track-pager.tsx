@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { CourseTrackReference } from "@/lib/course-structure";
-
-type PracticeSurface = "practice" | "shadowing" | "dictation" | "roleplay";
+import {
+  courseTrackHref,
+  type CourseTrackReference,
+  type PracticeSurface,
+} from "@/lib/course-structure";
+import { TrackSelect } from "./track-select";
 
 interface TrackPagerProps {
   sectionNumber: number;
-  currentTrackNumber: number;
+  currentTrackId: string;
+  tracks: CourseTrackReference[];
   previousTrack?: CourseTrackReference;
   nextTrack?: CourseTrackReference;
   practiceSurface?: PracticeSurface;
@@ -14,7 +18,8 @@ interface TrackPagerProps {
 
 export function TrackPager({
   sectionNumber,
-  currentTrackNumber,
+  currentTrackId,
+  tracks,
   previousTrack,
   nextTrack,
   practiceSurface,
@@ -24,7 +29,7 @@ export function TrackPager({
       {previousTrack ? (
         <Link
           className="button button-secondary track-pager-button"
-          href={trackHref(previousTrack, practiceSurface)}
+          href={courseTrackHref(previousTrack, practiceSurface)}
           rel="prev"
         >
           <ChevronLeft size={17} />
@@ -46,15 +51,17 @@ export function TrackPager({
         </span>
       )}
 
-      <span className="track-pager-current">
-        <small>SECTION {sectionNumber}</small>
-        <strong>Track {currentTrackNumber}</strong>
-      </span>
+      <TrackSelect
+        currentTrackId={currentTrackId}
+        sectionNumber={sectionNumber}
+        tracks={tracks}
+        practiceSurface={practiceSurface}
+      />
 
       {nextTrack ? (
         <Link
           className="button button-secondary track-pager-button next"
-          href={trackHref(nextTrack, practiceSurface)}
+          href={courseTrackHref(nextTrack, practiceSurface)}
           rel="next"
         >
           <span>
@@ -77,13 +84,4 @@ export function TrackPager({
       )}
     </nav>
   );
-}
-
-function trackHref(
-  track: CourseTrackReference,
-  practiceSurface?: PracticeSurface,
-) {
-  return practiceSurface
-    ? `/${practiceSurface}/${track.lessonId}?dialogue=${track.id}`
-    : `/tracks/${track.id}`;
 }

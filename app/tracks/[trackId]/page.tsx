@@ -61,7 +61,7 @@ export default async function TrackPage({
   if (!course) {
     notFound();
   }
-  const { lesson, nextTrack, previousTrack, track } = course;
+  const { lesson, nextTrack, previousTrack, sectionTracks, track } = course;
 
   return (
     <div className="page-stack">
@@ -106,7 +106,8 @@ export default async function TrackPage({
 
       <TrackPager
         sectionNumber={lesson.sectionNumber}
-        currentTrackNumber={track.number}
+        currentTrackId={track.id}
+        tracks={sectionTracks}
         previousTrack={previousTrack}
         nextTrack={nextTrack}
       />

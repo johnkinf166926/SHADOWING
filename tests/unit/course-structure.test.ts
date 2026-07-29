@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildCourseSections } from "@/lib/course-structure";
+import { buildCourseSections, courseTrackHref } from "@/lib/course-structure";
 import type { Dialogue, Lesson } from "@/lib/types";
 
 function dialogue(id: string, number: number): Dialogue {
@@ -45,5 +45,17 @@ describe("course hierarchy", () => {
       ["track-3", 3],
     ]);
     expect(sections[1]?.tracks[0]?.number).toBe(1);
+  });
+
+  it("builds Track links for detail and practice surfaces", () => {
+    const track = { id: "dialogue-2", number: 2, lessonId: "lesson-1" };
+
+    expect(courseTrackHref(track)).toBe("/tracks/dialogue-2");
+    expect(courseTrackHref(track, "shadowing")).toBe(
+      "/shadowing/lesson-1?dialogue=dialogue-2",
+    );
+    expect(courseTrackHref(track, "practice")).toBe(
+      "/practice/lesson-1?dialogue=dialogue-2",
+    );
   });
 });

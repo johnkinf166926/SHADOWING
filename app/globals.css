@@ -1358,7 +1358,7 @@ button:disabled {
 }
 
 .track-pager-button small,
-.track-pager-current small {
+.track-select small {
   color: var(--subtle);
   font-size: 8px;
   font-weight: 800;
@@ -1371,18 +1371,35 @@ button:disabled {
   opacity: 0.45;
 }
 
-.track-pager-current {
+.track-select {
   display: grid;
   min-width: 120px;
   justify-items: center;
-  gap: 2px;
+  gap: 4px;
   text-align: center;
 }
 
-.track-pager-current strong {
+.track-select select {
+  min-height: 38px;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--line-strong));
+  background-color: var(--surface-strong);
   color: var(--accent);
   font-family: "Yu Mincho", "Hiragino Mincho ProN", serif;
   font-size: 16px;
+  font-weight: 750;
+  text-align: center;
+}
+
+.track-select-compact {
+  min-width: 108px;
+  justify-items: stretch;
+  text-align: left;
+}
+
+.track-select-compact select {
+  min-height: 35px;
+  padding-block: 6px;
+  font-size: 12px;
 }
 
 .last-result {
@@ -2638,11 +2655,11 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 16px;
 }
 
-.practice-track-card > div > span {
-  display: block;
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: 9px;
+.practice-track-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .practice-track-buttons {
@@ -2812,7 +2829,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 .shadowing-mode-bar {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 1.4fr);
+  align-items: stretch;
   gap: 7px;
   border: 1px solid var(--line);
   border-radius: 18px;
@@ -2842,6 +2860,17 @@ input[type="range"]::-webkit-slider-thumb {
 .mode-pill span,
 .mode-pill small {
   display: block;
+}
+
+.shadowing-mode-note {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  border-left: 1px solid var(--line);
+  padding: 7px 13px;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.5;
 }
 
 .mode-pill span {
@@ -4432,7 +4461,7 @@ input[type="range"]::-webkit-slider-thumb {
     grid-template-columns: 1fr 1fr;
   }
 
-  .track-pager-current {
+  .track-select {
     grid-column: 1 / -1;
     grid-row: 1;
   }
@@ -4485,6 +4514,12 @@ input[type="range"]::-webkit-slider-thumb {
 
   .mode-pill {
     min-width: 115px;
+  }
+
+  .shadowing-mode-note {
+    min-width: 220px;
+    border-top: 0;
+    border-left: 1px solid var(--line);
   }
 
   .dictation-topbar {

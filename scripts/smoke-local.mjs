@@ -87,6 +87,9 @@ const firstTrackHtml = await firstTrackResponse.text();
 const trackNavigation = {
   firstTrackHasDisabledPrevious: firstTrackHtml.includes("已到开头"),
   hasTranslationEditor: firstTrackHtml.includes("修改这句日文原文和中文翻译"),
+  hasTrackDropdown:
+    firstTrackHtml.includes('aria-label="Section 1 切换 Track"') &&
+    firstTrackHtml.includes(`<option value="${secondDialogueId}"`),
   firstTrackLinksToSecond: firstTrackHtml.includes(
     `/tracks/${secondDialogueId}`,
   ),
@@ -100,9 +103,30 @@ const practiceTrackNavigation = {
     !firstPracticeHtml.includes("离线学习") &&
     !firstPracticeHtml.includes("音频不会自动缓存"),
   hasCalibrationPanel: firstPracticeHtml.includes("校准当前句"),
+  hasTrackDropdown:
+    firstPracticeHtml.includes('aria-label="Section 1 切换 Track"') &&
+    firstPracticeHtml.includes(`<option value="${secondDialogueId}"`),
   linksToSecond: firstPracticeHtml.includes(
     `/practice/${lesson.id}?dialogue=${secondDialogueId}`,
   ),
+};
+const shadowingResponse = await fetch(
+  `${baseUrl}/shadowing/${lesson.id}?dialogue=${firstDialogueId}`,
+);
+const shadowingHtml = await shadowingResponse.text();
+const shadowingModes = {
+  status: shadowingResponse.status,
+  hasTrackDropdown:
+    shadowingHtml.includes('aria-label="Section 1 切换 Track"') &&
+    shadowingHtml.includes(`<option value="${secondDialogueId}"`),
+  hasThreeWorkingModes:
+    shadowingHtml.includes("逐句跟读") &&
+    shadowingHtml.includes("只练 A") &&
+    shadowingHtml.includes("只练 B"),
+  removedMisleadingModes:
+    !shadowingHtml.includes("延迟跟读") &&
+    !shadowingHtml.includes("整段练习") &&
+    !shadowingHtml.includes("全部跟读"),
 };
 for (const path of [
   `/tracks/${firstDialogueId}`,
@@ -355,6 +379,7 @@ const summary = {
   continuousTrackNavigation,
   trackNavigation,
   practiceTrackNavigation,
+  shadowingModes,
   dialogues: lessonDetail.data.dialogues.length,
   lines: lessonDetail.data.dialogues.reduce(
     (total, dialogue) => total + dialogue.lines.length,
@@ -377,10 +402,16 @@ if (
   timedLines.length !== allLines.length ||
   !trackNavigation.firstTrackHasDisabledPrevious ||
   !trackNavigation.hasTranslationEditor ||
+  !trackNavigation.hasTrackDropdown ||
   !trackNavigation.firstTrackLinksToSecond ||
   !practiceTrackNavigation.removedOfflineCard ||
   !practiceTrackNavigation.hasCalibrationPanel ||
+  !practiceTrackNavigation.hasTrackDropdown ||
   !practiceTrackNavigation.linksToSecond ||
+  shadowingModes.status !== 200 ||
+  !shadowingModes.hasTrackDropdown ||
+  !shadowingModes.hasThreeWorkingModes ||
+  !shadowingModes.removedMisleadingModes ||
   timingCalibration.status !== 200 ||
   timingCalibration.updatedLines !== 1 ||
   translationEditing.status !== 200 ||

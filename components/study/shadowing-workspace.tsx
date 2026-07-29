@@ -3,29 +3,15 @@
 import {
   ChevronLeft,
   ChevronRight,
-  CirclePlay,
   Clock3,
-  Layers3,
   Mic2,
   UserRound,
 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { shadowingLinesForMode, shadowingModes } from "@/lib/shadowing";
 import type { Lesson, PracticeMode } from "@/lib/types";
 import { Badge } from "../ui/badge";
 import { RecordingPanel } from "./recording-panel";
-
-const modes: Array<{
-  value: PracticeMode;
-  label: string;
-  description: string;
-}> = [
-  { value: "FULL", label: "全部跟读", description: "A 与 B 连续练习" },
-  { value: "SPEAKER_A", label: "只练 A", description: "聚焦 A 的台词" },
-  { value: "SPEAKER_B", label: "只练 B", description: "聚焦 B 的台词" },
-  { value: "DELAYED", label: "延迟跟读", description: "听完后再开口" },
-  { value: "SINGLE_LINE", label: "单句练习", description: "逐句精练" },
-  { value: "FULL_DIALOGUE", label: "整段练习", description: "完成整组对话" },
-];
 
 export function ShadowingWorkspace({ lesson }: { lesson: Lesson }) {
   const [mode, setMode] = useState<PracticeMode>("SINGLE_LINE");
@@ -33,15 +19,10 @@ export function ShadowingWorkspace({ lesson }: { lesson: Lesson }) {
     () => lesson.dialogues.flatMap((dialogue) => dialogue.lines),
     [lesson.dialogues],
   );
-  const lines = useMemo(() => {
-    if (mode === "SPEAKER_A") {
-      return allLines.filter((line) => line.speaker === "A");
-    }
-    if (mode === "SPEAKER_B") {
-      return allLines.filter((line) => line.speaker === "B");
-    }
-    return allLines;
-  }, [allLines, mode]);
+  const lines = useMemo(
+    () => shadowingLinesForMode(allLines, mode),
+    [allLines, mode],
+  );
   const [lineIndex, setLineIndex] = useState(0);
   const safeIndex = Math.min(lineIndex, Math.max(0, lines.length - 1));
   const line = lines[safeIndex] ?? allLines[0];
@@ -56,7 +37,7 @@ export function ShadowingWorkspace({ lesson }: { lesson: Lesson }) {
   return (
     <div className="shadowing-layout">
       <section className="shadowing-mode-bar" aria-label="Shadowing 模式">
-        {modes.map((item) => (
+        {shadowingModes.map((item) => (
           <button
             className={mode === item.value ? "mode-pill active" : "mode-pill"}
             type="button"
@@ -71,6 +52,9 @@ export function ShadowingWorkspace({ lesson }: { lesson: Lesson }) {
             <small>{item.description}</small>
           </button>
         ))}
+        <p className="shadowing-mode-note">
+          每次精练一句；保存后用“上一句 / 下一句”继续。
+        </p>
       </section>
 
       <div className="shadowing-columns">
@@ -110,19 +94,7 @@ export function ShadowingWorkspace({ lesson }: { lesson: Lesson }) {
               上一句
             </button>
             <span>
-              {mode === "DELAYED" ? (
-                <>
-                  <CirclePlay size={15} /> 原音后延迟 1.2 秒
-                </>
-              ) : mode === "FULL_DIALOGUE" ? (
-                <>
-                  <Layers3 size={15} /> 整段顺序练习
-                </>
-              ) : (
-                <>
-                  <Mic2 size={15} /> 听一遍，再录一遍
-                </>
-              )}
+              <Mic2 size={15} /> 听一遍，再录一遍
             </span>
             <button
               className="button button-secondary"
