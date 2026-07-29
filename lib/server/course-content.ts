@@ -1000,6 +1000,9 @@ function lessonProgress(status: LessonStatus) {
 }
 
 function fileUrl(storagePath: string) {
+  if (storagePath.startsWith("/")) {
+    return storagePath;
+  }
   const key = storagePath
     .split("/")
     .map((segment) => encodeURIComponent(segment))

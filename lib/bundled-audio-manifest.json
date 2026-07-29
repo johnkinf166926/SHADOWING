@@ -1,0 +1,439 @@
+{
+  "version": "2026-07-29T02:03:24.546Z",
+  "tracks": [
+    {
+      "trackNumber": "1-02",
+      "filename": "track-1-02.m4a",
+      "durationMs": 77188,
+      "sizeBytes": 1297196,
+      "sha256": "fb414ac1ed6993dae45ae1672f31ceec1e6c6e5d681a4b76647072611e15d2e3"
+    },
+    {
+      "trackNumber": "1-03",
+      "filename": "track-1-03.m4a",
+      "durationMs": 90481,
+      "sizeBytes": 1506434,
+      "sha256": "d3c62c4f39d6858dd779d85a4c8822454c1ec665c48e71860ea3f972b9e2e839"
+    },
+    {
+      "trackNumber": "1-04",
+      "filename": "track-1-04.m4a",
+      "durationMs": 38033,
+      "sizeBytes": 644659,
+      "sha256": "fd05a79ae61c66fe5f52d97a92797385d78ce61f6102c0730fb481b0931a8218"
+    },
+    {
+      "trackNumber": "1-05",
+      "filename": "track-1-05.m4a",
+      "durationMs": 109842,
+      "sizeBytes": 1794934,
+      "sha256": "c35e088e975ec97f71f24f15ace1bf5c9777b4d7b4e3d959f032711fe1e4965e"
+    },
+    {
+      "trackNumber": "1-06",
+      "filename": "track-1-06.m4a",
+      "durationMs": 116687,
+      "sizeBytes": 1862938,
+      "sha256": "2c2d1ceabbe2fe213108297f6e51a6a4b9aef5ad70c93fb8b978c1d8bda21940"
+    },
+    {
+      "trackNumber": "1-07",
+      "filename": "track-1-07.m4a",
+      "durationMs": 101859,
+      "sizeBytes": 1619782,
+      "sha256": "97fb6169ce5da08968b3244fbbc004993fd7e6e23601afd37b247572a1063a6a"
+    },
+    {
+      "trackNumber": "1-08",
+      "filename": "track-1-08.m4a",
+      "durationMs": 104590,
+      "sizeBytes": 1733978,
+      "sha256": "b5d463aeec1719be55e3f95b7778548e6e1f21f97d1358a8cdbffd9fbeef9e80"
+    },
+    {
+      "trackNumber": "1-09",
+      "filename": "track-1-09.m4a",
+      "durationMs": 80407,
+      "sizeBytes": 1310224,
+      "sha256": "1184bfc7da2616a6bf4d97b73bc89cbd581bdbd9c70fe58ddd25f5a2bf61ecf4"
+    },
+    {
+      "trackNumber": "1-10",
+      "filename": "track-1-10.m4a",
+      "durationMs": 79813,
+      "sizeBytes": 1331118,
+      "sha256": "fd87f43c62bc38a0fa66208068c78e449ea6a728f93d1cd5e67aa4d45c1f7724"
+    },
+    {
+      "trackNumber": "1-11",
+      "filename": "track-1-11.m4a",
+      "durationMs": 86705,
+      "sizeBytes": 1400699,
+      "sha256": "0e0140eaeb6bc3dca8681b3a28cc3eb8f434de4e709496464feceb75756a8d68"
+    },
+    {
+      "trackNumber": "1-12",
+      "filename": "track-1-12.m4a",
+      "durationMs": 98596,
+      "sizeBytes": 1581536,
+      "sha256": "7406193ef0048dc432fbecba27bddae11b7b64607625f42c11a3a3121bd00bdc"
+    },
+    {
+      "trackNumber": "1-13",
+      "filename": "track-1-13.m4a",
+      "durationMs": 60510,
+      "sizeBytes": 998156,
+      "sha256": "a4fea0185e960e8aab5f2385bc4392d1f83587e78419ec68be34cc990deb27bf"
+    },
+    {
+      "trackNumber": "1-14",
+      "filename": "track-1-14.m4a",
+      "durationMs": 89170,
+      "sizeBytes": 1423361,
+      "sha256": "5541cb1329519715d278e8cdc7a775db61f174c0a53e3d62c4ace599f4b8ce2c"
+    },
+    {
+      "trackNumber": "1-15",
+      "filename": "track-1-15.m4a",
+      "durationMs": 102550,
+      "sizeBytes": 1664360,
+      "sha256": "f5f47f6d11ffdada317af429ddd3a03b784f1cec301b180bbdf16d12856cf288"
+    },
+    {
+      "trackNumber": "1-16",
+      "filename": "track-1-16.m4a",
+      "durationMs": 106100,
+      "sizeBytes": 1726188,
+      "sha256": "f7fc770665f4c1da249857baee60a4a32f2f88750e56b8efd7000b0c643a2284"
+    },
+    {
+      "trackNumber": "1-17",
+      "filename": "track-1-17.m4a",
+      "durationMs": 86430,
+      "sizeBytes": 1393879,
+      "sha256": "e9ff799ab52b63fd8833d1c3878db01446cd1b472a7f6e76ef4ca3e0ed486bea"
+    },
+    {
+      "trackNumber": "1-18",
+      "filename": "track-1-18.m4a",
+      "durationMs": 48620,
+      "sizeBytes": 777788,
+      "sha256": "b4a87a488cbf461c811f6ff94d110b9a57dcdcfba39380463b7bf18a19d05f90"
+    },
+    {
+      "trackNumber": "1-19",
+      "filename": "track-1-19.m4a",
+      "durationMs": 90280,
+      "sizeBytes": 1459999,
+      "sha256": "32e6392db97611223d3cbcf937f60410e56b28f50e4aaac201abbc46a7b16339"
+    },
+    {
+      "trackNumber": "1-20",
+      "filename": "track-1-20.m4a",
+      "durationMs": 92180,
+      "sizeBytes": 1537234,
+      "sha256": "0d31d635538a4160445ec9a8be4dc4713acc3b915e81204a54562ecfe4c14738"
+    },
+    {
+      "trackNumber": "1-21",
+      "filename": "track-1-21.m4a",
+      "durationMs": 44910,
+      "sizeBytes": 783855,
+      "sha256": "f8ef1054726445c099d0e9746766785009a43d381ab00f2120027b787e7f7196"
+    },
+    {
+      "trackNumber": "1-22",
+      "filename": "track-1-22.m4a",
+      "durationMs": 102980,
+      "sizeBytes": 1669394,
+      "sha256": "fe8419a60b75c9f05b196880d51f5a161e94a78e37abb04506e269482441031a"
+    },
+    {
+      "trackNumber": "1-23",
+      "filename": "track-1-23.m4a",
+      "durationMs": 93850,
+      "sizeBytes": 1519057,
+      "sha256": "29d005daff5d965cbcbd0549e640f47c5ce7e9ecfd6dd8289257877a03abacfa"
+    },
+    {
+      "trackNumber": "1-24",
+      "filename": "track-1-24.m4a",
+      "durationMs": 116810,
+      "sizeBytes": 1909512,
+      "sha256": "721662852e2daf81b9c4bf409d4e9265bef78264261bdd6b388743cbd21195ac"
+    },
+    {
+      "trackNumber": "1-25",
+      "filename": "track-1-25.m4a",
+      "durationMs": 83130,
+      "sizeBytes": 1372121,
+      "sha256": "81fdd4b20d579799bae3eaa7ee39c6ba0026909c5bb390b112e4832b0d54ea64"
+    },
+    {
+      "trackNumber": "1-26",
+      "filename": "track-1-26.m4a",
+      "durationMs": 108830,
+      "sizeBytes": 1735505,
+      "sha256": "4da983116c8432887c2433a77afaa554ad40fb8f5d9fcad6cbd8d70159690a7c"
+    },
+    {
+      "trackNumber": "1-27",
+      "filename": "track-1-27.m4a",
+      "durationMs": 64450,
+      "sizeBytes": 1060587,
+      "sha256": "13474a19e422c3650fa6ce0a76b86435651e9f8eac3cb23616067b759a8ced86"
+    },
+    {
+      "trackNumber": "1-28",
+      "filename": "track-1-28.m4a",
+      "durationMs": 92720,
+      "sizeBytes": 1544344,
+      "sha256": "9ded34fedf3f785872aedf4009b3109b6c43a3a79889cb7960d06f33595ebf95"
+    },
+    {
+      "trackNumber": "1-29",
+      "filename": "track-1-29.m4a",
+      "durationMs": 94770,
+      "sizeBytes": 1583273,
+      "sha256": "14361b8b97468cb39460e86c59b0b87f4427831df04d2fbc144b10b844b94fd1"
+    },
+    {
+      "trackNumber": "1-30",
+      "filename": "track-1-30.m4a",
+      "durationMs": 73920,
+      "sizeBytes": 1212863,
+      "sha256": "a264297c8d441a1d4c4f68f6730cd55efdf8a597994e97a4d2b521e3e96bf608"
+    },
+    {
+      "trackNumber": "1-31",
+      "filename": "track-1-31.m4a",
+      "durationMs": 87650,
+      "sizeBytes": 1457963,
+      "sha256": "03bf389856b1562b6bf2725386cd034792d3d95024c57f74d2b592610c670f05"
+    },
+    {
+      "trackNumber": "1-32",
+      "filename": "track-1-32.m4a",
+      "durationMs": 110920,
+      "sizeBytes": 1832935,
+      "sha256": "c47d09dd4590059f3d2a0269125fef7af119f6cad3162e8f04fce2e98bf972c9"
+    },
+    {
+      "trackNumber": "1-33",
+      "filename": "track-1-33.m4a",
+      "durationMs": 99300,
+      "sizeBytes": 1632007,
+      "sha256": "9bc5c5c2fd128c3155bda0cb66f3a2df81beb93679f667921902548a96f94081"
+    },
+    {
+      "trackNumber": "2-02",
+      "filename": "track-2-02.m4a",
+      "durationMs": 93590,
+      "sizeBytes": 1520650,
+      "sha256": "629e04e0230e806c7afe6595f09e53b98ef8d7f07e38ec688838fcd02219b993"
+    },
+    {
+      "trackNumber": "2-03",
+      "filename": "track-2-03.m4a",
+      "durationMs": 83320,
+      "sizeBytes": 1376674,
+      "sha256": "3ff32e148ec346881cdebec98f78bf078238f399ebb5c07c718bc5d2c1828cec"
+    },
+    {
+      "trackNumber": "2-04",
+      "filename": "track-2-04.m4a",
+      "durationMs": 75910,
+      "sizeBytes": 1272215,
+      "sha256": "bdd2c811b0c5e51c9ba1b703d97fd31c151569af1d4c700e38923442d2c0282f"
+    },
+    {
+      "trackNumber": "2-05",
+      "filename": "track-2-05.m4a",
+      "durationMs": 83120,
+      "sizeBytes": 1366556,
+      "sha256": "e1affa3d66edbcc4d6da6683cd98abf23a373296558244dc75069423b5929dcf"
+    },
+    {
+      "trackNumber": "2-06",
+      "filename": "track-2-06.m4a",
+      "durationMs": 101720,
+      "sizeBytes": 1635287,
+      "sha256": "475834659e7e9ec6e0948594e83d16c2c7be67b88dbe8090a8fb294b2f0e2431"
+    },
+    {
+      "trackNumber": "2-07",
+      "filename": "track-2-07.m4a",
+      "durationMs": 91510,
+      "sizeBytes": 1466266,
+      "sha256": "77308219648e13cbd04ab5f7bc11d8e65a5d306ae9ea5d85473594e95a1a5ca3"
+    },
+    {
+      "trackNumber": "2-08",
+      "filename": "track-2-08.m4a",
+      "durationMs": 93800,
+      "sizeBytes": 1491704,
+      "sha256": "8e777d03a239db79d71c78edfb813494b38bb808824eb43277589f3a4f1acf5b"
+    },
+    {
+      "trackNumber": "2-09",
+      "filename": "track-2-09.m4a",
+      "durationMs": 82690,
+      "sizeBytes": 1341181,
+      "sha256": "9416ba976b946c9bed207d1718dcd77de1961185cbac0a20c0dcf26a75f80e1d"
+    },
+    {
+      "trackNumber": "2-10",
+      "filename": "track-2-10.m4a",
+      "durationMs": 85210,
+      "sizeBytes": 1372138,
+      "sha256": "250dea8c425af37b33fd3fd82f6dfe0a353092825d0dbb3ba24e40cf1d45d5ff"
+    },
+    {
+      "trackNumber": "2-11",
+      "filename": "track-2-11.m4a",
+      "durationMs": 112050,
+      "sizeBytes": 1788782,
+      "sha256": "3016e308a9d4866691dbb87ab7f08dd6802d9d567417b45dde9730cf5444fab1"
+    },
+    {
+      "trackNumber": "2-12",
+      "filename": "track-2-12.m4a",
+      "durationMs": 92620,
+      "sizeBytes": 1485272,
+      "sha256": "508a93089f786ccd6947a65b035da5459c8ddbc258a378475b766260438d08d9"
+    },
+    {
+      "trackNumber": "2-13",
+      "filename": "track-2-13.m4a",
+      "durationMs": 94630,
+      "sizeBytes": 1508489,
+      "sha256": "080b91668b73f8b782507e3cda5205bacf6a55b11fdbcb4760aa5fae2b571e03"
+    },
+    {
+      "trackNumber": "2-14",
+      "filename": "track-2-14.m4a",
+      "durationMs": 44800,
+      "sizeBytes": 778849,
+      "sha256": "751d3463d0da48581ec2144f54bb6af29de2a3fbda7b859b3c30db9648d030bc"
+    },
+    {
+      "trackNumber": "2-15",
+      "filename": "track-2-15.m4a",
+      "durationMs": 82830,
+      "sizeBytes": 1358947,
+      "sha256": "ce1a4e9fbb7a463b4d024307b0066f0c3d4703ec3552ebd725f4a6547f764f95"
+    },
+    {
+      "trackNumber": "2-16",
+      "filename": "track-2-16.m4a",
+      "durationMs": 81800,
+      "sizeBytes": 1331599,
+      "sha256": "e0dac8293cbff1beaca7b4ef7672b39607fa01f9ecbdbe86ba33c92a74fe2bf0"
+    },
+    {
+      "trackNumber": "2-17",
+      "filename": "track-2-17.m4a",
+      "durationMs": 88180,
+      "sizeBytes": 1425571,
+      "sha256": "9952141615e6809f43c2248d5c3c11e8d0404bf535d4dc8a5d0c3c975d62153f"
+    },
+    {
+      "trackNumber": "2-18",
+      "filename": "track-2-18.m4a",
+      "durationMs": 82460,
+      "sizeBytes": 1346728,
+      "sha256": "0b01d4bdd46c58a5f104797de8eac7893e4352143fcaef74381ad40e3783859b"
+    },
+    {
+      "trackNumber": "2-19",
+      "filename": "track-2-19.m4a",
+      "durationMs": 76810,
+      "sizeBytes": 1264215,
+      "sha256": "1f8ee0235ba7213331682c42d8501838128cc5120aa5109d6f24cae01c47e8bd"
+    },
+    {
+      "trackNumber": "2-20",
+      "filename": "track-2-20.m4a",
+      "durationMs": 41490,
+      "sizeBytes": 694040,
+      "sha256": "709b04eee7c97c7aebf4169dfc06f2cffdc12d69b488dcbbeed81c60dff1da17"
+    },
+    {
+      "trackNumber": "2-21",
+      "filename": "track-2-21.m4a",
+      "durationMs": 97820,
+      "sizeBytes": 1573349,
+      "sha256": "dcddc5b6cd84ccb6d08861eb0ce77e8f198f96615df712c5d4850243c9b0f14f"
+    },
+    {
+      "trackNumber": "2-22",
+      "filename": "track-2-22.m4a",
+      "durationMs": 92040,
+      "sizeBytes": 1500013,
+      "sha256": "62348a5f29819ec7226c7528abdef778c8f7364d5604edddec65ae7d91a68216"
+    },
+    {
+      "trackNumber": "2-23",
+      "filename": "track-2-23.m4a",
+      "durationMs": 116330,
+      "sizeBytes": 1879715,
+      "sha256": "02751ded6b7bbe6450790aaa39e6d739e9feb4d8bc601da9824e1f237dc4a831"
+    },
+    {
+      "trackNumber": "2-24",
+      "filename": "track-2-24.m4a",
+      "durationMs": 98780,
+      "sizeBytes": 1584773,
+      "sha256": "80f322ffb2e5db21e4bcc3b9c6b9f36c03c829421f9d7e6ec309d7e03868a1bb"
+    },
+    {
+      "trackNumber": "2-25",
+      "filename": "track-2-25.m4a",
+      "durationMs": 111560,
+      "sizeBytes": 1817679,
+      "sha256": "4581788bf1adba6c5ebad9a077c50a0e2df8e1f9505627ad294f6fc9a723707a"
+    },
+    {
+      "trackNumber": "2-26",
+      "filename": "track-2-26.m4a",
+      "durationMs": 98880,
+      "sizeBytes": 1598408,
+      "sha256": "b5fa861ed11a9c60050a015a3d83833e11b84901709a1ac41d82914c5390a9ac"
+    },
+    {
+      "trackNumber": "2-27",
+      "filename": "track-2-27.m4a",
+      "durationMs": 104610,
+      "sizeBytes": 1730419,
+      "sha256": "dc28f755de358b9ba2d59407b5d210de60661b11fc12f1672ecef41dcd154504"
+    },
+    {
+      "trackNumber": "2-28",
+      "filename": "track-2-28.m4a",
+      "durationMs": 138880,
+      "sizeBytes": 2243705,
+      "sha256": "44bf2dfcf33a222341da1e2b49ff809128ade6ad3bed4fceef414f14764166d4"
+    },
+    {
+      "trackNumber": "2-29",
+      "filename": "track-2-29.m4a",
+      "durationMs": 137670,
+      "sizeBytes": 2223437,
+      "sha256": "a52ea25498fde179086a8a5e31a415380540cc62c7d86ea1d87f6bc884263f30"
+    },
+    {
+      "trackNumber": "2-30",
+      "filename": "track-2-30.m4a",
+      "durationMs": 135640,
+      "sizeBytes": 2197457,
+      "sha256": "18be5216a70e891133b73bd9f7ee11e32a4fc8faf65b478900b1978ce580fbbb"
+    },
+    {
+      "trackNumber": "2-31",
+      "filename": "track-2-31.m4a",
+      "durationMs": 150230,
+      "sizeBytes": 2419858,
+      "sha256": "432b8d992c8074ce2cac5a256e68e6d2a2e4b07d8cf008eb65716f68c867ef88"
+    }
+  ]
+}

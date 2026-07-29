@@ -2,7 +2,7 @@
 
 一个面向个人学习的 Local First 日语跟读训练程序。它把教材内容、音频逐句定位、跟读录音、听写纠错、角色扮演与表达复习放在同一条学习路径里。
 
-> 仓库不包含教材正文或教材音频。`private_content/`、`uploads/`、`data/`、`.wrangler/` 与本地环境变量均被 Git 忽略。当前电脑中从 PDF 生成的 OCR 内容和本地 D1 数据也只保存在这些私有目录。
+> 仓库已经包含可直接学习的最终课程数据、逐句时间坐标和 62 条成品音轨。原始教材 PDF、OCR 中间文件、个人学习记录、录音和本地数据库仍保存在 `private_content/`、`uploads/`、`data/`、`.wrangler/` 等 Git 忽略目录中。
 
 ## 功能
 
@@ -38,21 +38,21 @@ npm run db:generate
 npm run dev
 ```
 
-打开 `http://localhost:3000`。应用运行时的 D1/R2 本地状态由 Miniflare 保存在 `.wrangler/`；Prisma CLI 使用 `data/shadowing-coach.db`。两者都不会提交到 Git。
+打开 `http://localhost:3000`。全新 clone 第一次访问时，应用会自动把仓库内的 8 个 Unit、最终台词与逐句时间坐标写入空的本地 D1；62 条音轨直接从仓库静态资源播放，不需要再执行导入或上传命令。
 
-当前工作区已经导入本机教材，可直接从“课程”进入 8 个 Unit。第一次点击录音时允许麦克风权限即可使用跟读和角色练习。
+应用运行时的个人进度与录音仍由 Miniflare 保存在 `.wrangler/`，Prisma CLI 使用 `data/shadowing-coach.db`；这些个人状态不会提交到 Git。第一次点击录音时允许麦克风权限即可使用跟读和角色练习。
 
-## 当前教材 PDF
+## 内置课程
 
-扫描版教材位于 `private_content/book.pdf`，已在本机生成：
+仓库中的可分发课程包包含：
 
 - 8 个 Unit、62 条音轨课次
-- 231 组对话/长文本、1,198 行日文
-- 1,150 行自动对齐的中文译文
+- 234 组对话/长文本、1,207 行日文
+- 1,207 行最终毫秒级音频坐标、1,161 行中文译文
 
-日文和译文属于 OCR 草稿，每一行都带有待核对标记。教材原音不在 PDF 中，因此未上传音频时，播放按钮会明确使用浏览器的日语合成朗读；在管理端上传对应音轨并设置时间范围后，播放器会改用教材原音。
+内置数据由当前本地 D1 的最终状态导出，因此包含后来在管理界面手工调整的台词与时间范围。空数据库才会自动安装内置课程；已有课程或个人进度不会被覆盖。
 
-如需从原 PDF 重新生成并导入到正在运行的本地应用：
+原始扫描版教材仍位于本机 `private_content/book.pdf`，不会进入 Git。如需从原 PDF 重新生成并导入到正在运行的本地应用：
 
 ```powershell
 npm run book:render -- private_content/book.pdf private_content/ocr/high-all "2-9,12-20,23-31,33-38,40-49,52-58,60-64,66-73" 3
@@ -79,7 +79,7 @@ npm run content:export -- 9
 
 管理端位于 `/admin`，支持 JSON/CSV 干运行预览。正式导入在一个事务内完成；结构错误、重复音轨或重复台词顺序会阻止写入。同一 Section 可以包含多条音轨课次。完整字段和 CSV 列说明见 [CONTENT_FORMAT.md](./CONTENT_FORMAT.md)。
 
-音频支持 MP3、WAV、M4A、AAC、OGG、WebM、FLAC，单文件上限 80 MB。上传后的二进制放在 R2/本地 R2 模拟器，数据库只保存元数据和引用。OCR 管线读取 `private_content/` 中的教材 PDF，但应用不会提供 PDF 下载地址或公开原文件。
+内置课程音轨位于 `public/audio/track-*.m4a`。另外通过管理端上传的音频支持 MP3、WAV、M4A、AAC、OGG、WebM、FLAC，单文件上限 80 MB；上传后的二进制放在 R2/本地 R2 模拟器，数据库只保存元数据和引用。OCR 管线读取 `private_content/` 中的教材 PDF，但应用不会提供 PDF 下载地址或公开原文件。
 
 ## 常用命令
 
@@ -102,6 +102,7 @@ npm run content:export      按 Unit 编号导出 JSON 到 stdout
 npm run book:build-content  把本机 OCR 整理为私有 Unit 导入文件
 npm run book:validate-content 校验整本教材的私有导入文件
 npm run book:import-local   导入到正在运行的本地 D1
+npm run course:export-bundle 从正在运行的本地 D1 刷新可分发课程包
 npm run smoke:local         检查 8 个核心页面与教材 API
 npm run sample-audio        重新生成虚构 WAV
 npm run icons               重新生成 PWA PNG 图标
