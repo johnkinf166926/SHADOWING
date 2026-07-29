@@ -1,4 +1,5 @@
 import { getDatabase } from "./runtime";
+import { seedBundledCourse } from "./bundled-course";
 
 let initialization: Promise<void> | undefined;
 
@@ -164,6 +165,7 @@ async function initialize(): Promise<void> {
   await database.batch(
     schemaStatements.map((statement) => database.prepare(statement)),
   );
+  await seedBundledCourse(database);
 }
 
 export function logServerError(

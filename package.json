@@ -38,6 +38,7 @@
     "book:validate-content": "tsx scripts/validate-book-content.ts",
     "book:import-local": "node scripts/import-runtime-content.mjs",
     "book:sync-units": "node scripts/sync-book-unit-metadata.mjs",
+    "course:export-bundle": "node scripts/export-bundled-course.mjs",
     "smoke:local": "node scripts/smoke-local.mjs",
     "sample-audio": "node scripts/generate-sample-audio.mjs",
     "icons": "node scripts/generate-icons.mjs"
