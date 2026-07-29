@@ -166,6 +166,34 @@ async function initialize(): Promise<void> {
     schemaStatements.map((statement) => database.prepare(statement)),
   );
   await seedBundledCourse(database);
+  const synchronizedAt = new Date().toISOString();
+  await database.batch([
+    database
+      .prepare(
+        `UPDATE lessons
+         SET status = 'COMPLETED', updated_at = ?
+         WHERE status <> 'COMPLETED'
+           AND EXISTS (
+             SELECT 1
+             FROM practice_sessions
+             WHERE practice_sessions.lesson_id = lessons.id
+               AND practice_sessions.completed = 1
+           )`,
+      )
+      .bind(synchronizedAt),
+    database
+      .prepare(
+        `UPDATE lessons
+         SET status = 'IN_PROGRESS', updated_at = ?
+         WHERE status = 'NOT_STARTED'
+           AND EXISTS (
+             SELECT 1
+             FROM practice_sessions
+             WHERE practice_sessions.lesson_id = lessons.id
+           )`,
+      )
+      .bind(synchronizedAt),
+  ]);
 }
 
 export function logServerError(
