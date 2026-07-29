@@ -25,6 +25,7 @@ export default async function ShadowingPage({
   const track = "track" in course ? course.track : undefined;
   const previousTrack = "track" in course ? course.previousTrack : undefined;
   const nextTrack = "track" in course ? course.nextTrack : undefined;
+  const sectionTracks = "track" in course ? course.sectionTracks : [];
 
   return (
     <div className="page-stack">
@@ -46,8 +47,8 @@ export default async function ShadowingPage({
           </p>
           <h1>跟读 · Shadowing</h1>
           <p className="muted">
-            先听清节奏，再录下自己的声音。MVP
-            仅提供时长提示与自评，不伪装自动发音评分。
+            每次专注一句：听原音、录下自己的声音，再对比时长与节奏。
+            可切换全部台词、A 角色或 B 角色。
           </p>
         </div>
         <Badge tone="accent">Disk {lesson.trackNumber}</Badge>
@@ -55,7 +56,8 @@ export default async function ShadowingPage({
       {track ? (
         <TrackPager
           sectionNumber={lesson.sectionNumber}
-          currentTrackNumber={track.number}
+          currentTrackId={track.id}
+          tracks={sectionTracks}
           previousTrack={previousTrack}
           nextTrack={nextTrack}
           practiceSurface="shadowing"

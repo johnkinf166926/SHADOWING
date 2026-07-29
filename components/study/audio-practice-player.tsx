@@ -22,15 +22,21 @@ import {
   getPlayableRange,
 } from "@/lib/audio";
 import { cancelJapaneseSpeech, speakJapanese } from "@/lib/browser-speech";
-import type { CourseTrackReference } from "@/lib/course-structure";
+import {
+  courseTrackHref,
+  type CourseTrackReference,
+} from "@/lib/course-structure";
 import type { DialogueLine, Lesson } from "@/lib/types";
 import { Badge } from "../ui/badge";
+import { TrackSelect } from "./track-select";
 
 type LoopMode = "none" | "line" | "dialogue";
 type TranslationSize = "medium" | "large" | "xlarge";
 
 interface PracticeTrackNavigation {
-  currentTrackNumber: number;
+  currentTrackId: string;
+  sectionNumber: number;
+  tracks: CourseTrackReference[];
   previousTrack?: CourseTrackReference;
   nextTrack?: CourseTrackReference;
 }
@@ -742,16 +748,27 @@ export function AudioPracticePlayer({
 
         {trackNavigation ? (
           <section className="surface practice-track-card">
-            <div>
-              <p className="eyebrow">TRACK NAVIGATION</p>
-              <h2>切换 Track</h2>
-              <span>当前 Track {trackNavigation.currentTrackNumber}</span>
+            <div className="practice-track-heading">
+              <div>
+                <p className="eyebrow">TRACK NAVIGATION</p>
+                <h2>切换 Track</h2>
+              </div>
+              <TrackSelect
+                compact
+                currentTrackId={trackNavigation.currentTrackId}
+                sectionNumber={trackNavigation.sectionNumber}
+                tracks={trackNavigation.tracks}
+                practiceSurface="practice"
+              />
             </div>
             <div className="practice-track-buttons">
               {trackNavigation.previousTrack ? (
                 <Link
                   className="button button-secondary"
-                  href={practiceTrackHref(trackNavigation.previousTrack)}
+                  href={courseTrackHref(
+                    trackNavigation.previousTrack,
+                    "practice",
+                  )}
                   rel="prev"
                 >
                   <ChevronLeft size={17} />
@@ -775,7 +792,7 @@ export function AudioPracticePlayer({
               {trackNavigation.nextTrack ? (
                 <Link
                   className="button button-secondary next"
-                  href={practiceTrackHref(trackNavigation.nextTrack)}
+                  href={courseTrackHref(trackNavigation.nextTrack, "practice")}
                   rel="next"
                 >
                   <span>
@@ -902,10 +919,6 @@ export function AudioPracticePlayer({
       </div>
     </div>
   );
-}
-
-function practiceTrackHref(track: CourseTrackReference) {
-  return `/practice/${track.lessonId}?dialogue=${track.id}`;
 }
 
 function formatCalibrationTime(milliseconds: number) {

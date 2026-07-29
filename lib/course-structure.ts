@@ -19,6 +19,9 @@ export interface CourseTrackReference {
   lessonId: string;
 }
 
+export type PracticeSurface =
+  "practice" | "shadowing" | "dictation" | "roleplay";
+
 export interface CourseSection {
   number: number;
   level: LessonLevel;
@@ -71,4 +74,13 @@ export function buildCourseSections(lessons: Lesson[]): CourseSection[] {
   return [...sections.values()].sort(
     (left, right) => left.number - right.number,
   );
+}
+
+export function courseTrackHref(
+  track: CourseTrackReference,
+  practiceSurface?: PracticeSurface,
+) {
+  return practiceSurface
+    ? `/${practiceSurface}/${track.lessonId}?dialogue=${track.id}`
+    : `/tracks/${track.id}`;
 }

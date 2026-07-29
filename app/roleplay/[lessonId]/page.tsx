@@ -25,6 +25,7 @@ export default async function RoleplayPage({
   const track = "track" in course ? course.track : undefined;
   const previousTrack = "track" in course ? course.previousTrack : undefined;
   const nextTrack = "track" in course ? course.nextTrack : undefined;
+  const sectionTracks = "track" in course ? course.sectionTracks : [];
 
   return (
     <div className="page-stack">
@@ -53,7 +54,8 @@ export default async function RoleplayPage({
       {track ? (
         <TrackPager
           sectionNumber={lesson.sectionNumber}
-          currentTrackNumber={track.number}
+          currentTrackId={track.id}
+          tracks={sectionTracks}
           previousTrack={previousTrack}
           nextTrack={nextTrack}
           practiceSurface="roleplay"

@@ -112,6 +112,12 @@ interface StudyDayRow {
   studyDate: string;
 }
 
+interface TrackReferenceRow {
+  id: string;
+  number: number;
+  lessonId: string;
+}
+
 interface TrackContextRow extends LessonRow {
   dialogueId: string;
   dialogueNumber: number;
@@ -207,6 +213,7 @@ export interface LessonWithUnit extends Lesson {
 export interface CourseTrackWithLesson {
   track: CourseTrack;
   lesson: LessonWithUnit;
+  sectionTracks: CourseTrackReference[];
   previousTrack?: CourseTrackReference;
   nextTrack?: CourseTrackReference;
 }
@@ -864,9 +871,10 @@ export async function getCourseTrack(
     return undefined;
   }
 
-  const lineResult = await database
-    .prepare(
-      `SELECT
+  const [lineResult, sectionTrackResult] = await Promise.all([
+    database
+      .prepare(
+        `SELECT
          id,
          dialogue_id AS dialogueId,
          line_order AS "order",
@@ -881,9 +889,36 @@ export async function getCourseTrack(
        FROM dialogue_lines
        WHERE dialogue_id = ?
        ORDER BY line_order`,
-    )
-    .bind(trackId)
-    .all<LineRow>();
+      )
+      .bind(trackId)
+      .all<LineRow>(),
+    database
+      .prepare(
+        `WITH numbered_tracks AS (
+           SELECT
+             d.id,
+             d.lesson_id AS lessonId,
+             u.number AS unitNumber,
+             l.section_number AS sectionNumber,
+             ROW_NUMBER() OVER (
+               PARTITION BY u.number, l.section_number
+               ORDER BY
+                 l.pdf_page ASC,
+                 l.track_number ASC,
+                 d.number ASC
+             ) AS number
+           FROM dialogues d
+           JOIN lessons l ON l.id = d.lesson_id
+           JOIN units u ON u.id = l.unit_id
+         )
+         SELECT id, lessonId, number
+         FROM numbered_tracks
+         WHERE unitNumber = ? AND sectionNumber = ?
+         ORDER BY number`,
+      )
+      .bind(context.unitNumber, context.sectionNumber)
+      .all<TrackReferenceRow>(),
+  ]);
   const dialogue: Dialogue = {
     id: context.dialogueId,
     number: Number(context.dialogueNumber),
@@ -913,6 +948,11 @@ export async function getCourseTrack(
   return {
     track,
     lesson,
+    sectionTracks: sectionTrackResult.results.map((row) => ({
+      id: row.id,
+      number: Number(row.number),
+      lessonId: row.lessonId,
+    })),
     previousTrack: mapTrackReference(
       context.previousTrackId,
       context.previousTrackNumber,

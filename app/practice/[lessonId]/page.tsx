@@ -24,6 +24,7 @@ export default async function PracticePage({
   const track = "track" in course ? course.track : undefined;
   const previousTrack = "track" in course ? course.previousTrack : undefined;
   const nextTrack = "track" in course ? course.nextTrack : undefined;
+  const sectionTracks = "track" in course ? course.sectionTracks : [];
 
   return (
     <div className="page-stack practice-page">
@@ -57,7 +58,9 @@ export default async function PracticePage({
         trackNavigation={
           track
             ? {
-                currentTrackNumber: track.number,
+                currentTrackId: track.id,
+                sectionNumber: lesson.sectionNumber,
+                tracks: sectionTracks,
                 previousTrack,
                 nextTrack,
               }
